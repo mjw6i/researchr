@@ -36,8 +36,9 @@
         margin: 0;
         padding: 0;
     }
-    #mosquito {
-        width: 1024px;
+    section {
+        max-width: 70%;
+        margin: 0 auto;
     }
     #mosquito .leg {
         fill: #ffffff;
@@ -69,6 +70,41 @@
     form #wing2:checked ~ #mosquito .wing2 {
         visibility: hidden;
     }
+    form {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    form input, label {
+        margin-top: 0.5rem;
+    }
+    form input[type=checkbox] {
+        display: flex;
+        height: 2rem;
+        width: 16.66%;
+        align-items: center;
+    }
+    form label {
+        display: flex;
+        font-size: 1.4rem;
+        width: 16.66%;
+        align-items: center;
+    }
+    form input[type=submit] {
+        display: flex;
+        width: 30%;
+        margin: 0.5rem auto 0 auto;
+        font-size: 1.4rem;
+    }
+    form svg {
+        display: flex;
+        width: 100%;
+        margin-bottom: 10rem;
+    }
+    input {
+        margin: 0;
+        padding: 0;
+    }
+
 </style>
 </head>
 <body>
@@ -83,27 +119,26 @@
     </header>
     <section>
         <form>
-            <input type="checkbox" id="leg1" name="leg1">
-            <label for="leg1">Leg 1</label>
-            <input type="checkbox" id="leg2" name="leg2">
-            <label for="leg2">Leg 2</label>
-            <input type="checkbox" id="leg3" name="leg3">
-            <label for="leg3">Leg 3</label>
-            <input type="checkbox" id="leg4" name="leg4">
-            <label for="leg4">Leg 4</label>
-            <input type="checkbox" id="leg5" name="leg5">
-            <label for="leg5">Leg 5</label>
-            <input type="checkbox" id="leg6" name="leg6">
-            <label for="leg6">Leg 6</label>
-            <input type="checkbox" id="head" name="head">
-            <label for="head">head</label>
-            <input type="checkbox" id="wing1" name="wing1">
-            <label for="wing1">wing1</label>
-            <input type="checkbox" id="wing2" name="wing2">
-            <label for="wing2">wing2</label>
-            <input type="submit" value="Submit">
-        
-<svg id="mosquito" viewBox="0 0 490.28 490.28">
+            <input type="checkbox" id="leg1" name="leg1" style="order: 2;">
+            <label for="leg1" style="order: 3;">Leg 1</label> 
+            <input type="checkbox" id="leg2" name="leg2" style="order: 4;">
+            <label for="leg2" style="order: 5;">Leg 2</label>
+            <input type="checkbox" id="leg3" name="leg3" style="order: 6;">
+            <label for="leg3" style="order: 7;">Leg 3</label>
+            <input type="checkbox" id="leg4" name="leg4" style="order: 8;">
+            <label for="leg4" style="order: 9;">Leg 4</label>
+            <input type="checkbox" id="leg5" name="leg5" style="order: 10;">
+            <label for="leg5" style="order: 11;">Leg 5</label>
+            <input type="checkbox" id="leg6" name="leg6" style="order: 12;">
+            <label for="leg6" style="order: 13;">Leg 6</label>
+            <input type="checkbox" id="wing1" name="wing1" style="order: 14;">
+            <label for="wing1" style="order: 15;">wing1</label>
+            <input type="checkbox" id="wing2" name="wing2" style="order: 16;">
+            <label for="wing2" style="order: 17;">wing2</label>
+            <input type="checkbox" id="head" name="head" style="order: 18;">
+            <label for="head" style="order: 19;">head</label>
+            <input type="submit" value="Submit" style="order: 20;">
+<svg id="mosquito" viewBox="0 0 490.28 490.28" style="order: 1;">
 <g>
 <path class="leg leg5" d="M127.939,425.977H99.39c-4.142,0-7.5-3.358-7.5-7.5s3.358-7.5,7.5-7.5h21.048V354.37     c0-2.815,1.577-5.393,4.083-6.676l49.76-25.474c3.685-1.885,8.206-0.429,10.094,3.259c1.887,3.687,0.429,8.206-3.259,10.094     l-45.677,23.383v59.521C135.439,422.619,132.081,425.977,127.939,425.977z"/>
 <path class="leg leg3" d="M361.625,490.28h-28.548c-4.142,0-7.5-3.358-7.5-7.5v-59.521L279.9,399.876     c-3.687-1.888-5.146-6.407-3.259-10.094c1.888-3.688,6.407-5.146,10.094-3.259l49.76,25.473c2.506,1.283,4.083,3.861,4.083,6.676     v56.607h21.048c4.142,0,7.5,3.358,7.5,7.5S365.767,490.28,361.625,490.28z"/>
