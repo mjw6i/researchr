@@ -91,6 +91,15 @@
         margin: 0;
         padding: 0;
     }
+    label[for=responsiveness-yes], label[for=responsiveness-no] {
+        color: red;
+    }
+    #responsiveness-yes:invalid ~ label[for=responsiveness-yes], #responsiveness-no:invalid ~ label[for=responsiveness-no] {
+        color: #b4b4b4;
+    }
+    #responsiveness-yes:checked ~ label[for=responsiveness-yes], #responsiveness-no:checked ~ label[for=responsiveness-no] {
+        color: green;
+    }
 </style>
 </head>
 <body>
