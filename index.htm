@@ -37,74 +37,60 @@
         padding: 0;
     }
     section {
-        max-width: 70%;
+        width: 70%;
+        max-width: 70vh;
         margin: 0 auto;
+    }
+    form {
+        position: relative;
+    }
+    #mosquito {
+        display: block;
+        margin: 0 auto 5rem auto;
+        padding-top: 5rem; 
     }
     #mosquito .leg {
         fill: #ffffff;
     }
-    form #leg1:checked ~ #mosquito .leg1 {
+    form input[name=leg1]:checked ~ #mosquito .leg1 {
         visibility: hidden;
     }
-    form #leg2:checked ~ #mosquito .leg2 {
+    form input[name=leg2]:checked ~ #mosquito .leg2 {
         visibility: hidden;
     }
-    form #leg3:checked ~ #mosquito .leg3 {
+    form input[name=leg3]:checked ~ #mosquito .leg3 {
         visibility: hidden;
     }
-    form #leg4:checked ~ #mosquito .leg4 {
+    form input[name=leg4]:checked ~ #mosquito .leg4 {
         visibility: hidden;
     }
-    form #leg5:checked ~ #mosquito .leg5 {
+    form input[name=leg5]:checked ~ #mosquito .leg5 {
         visibility: hidden;
     }
-    form #leg6:checked ~ #mosquito .leg6 {
+    form input[name=leg6]:checked ~ #mosquito .leg6 {
         visibility: hidden;
     }
-    form #head:checked ~ #mosquito .head {
+    form input[name=head]:checked ~ #mosquito .head {
         visibility: hidden;
     }
-    form #wing1:checked ~ #mosquito .wing1 {
+    form input[name=wing1]:checked ~ #mosquito .wing1 {
         visibility: hidden;
     }
-    form #wing2:checked ~ #mosquito .wing2 {
+    form input[name=wing2]:checked ~ #mosquito .wing2 {
         visibility: hidden;
-    }
-    form {
-        display: flex;
-        flex-wrap: wrap;
-    }
-    form input, label {
-        margin-top: 0.5rem;
     }
     form input[type=checkbox] {
-        display: flex;
-        height: 2rem;
-        width: 16.66%;
-        align-items: center;
-    }
-    form label {
-        display: flex;
-        font-size: 1.4rem;
-        width: 16.66%;
-        align-items: center;
+        height: 4rem;
+        width: 4rem;
+        position: absolute;
     }
     form input[type=submit] {
-        display: flex;
-        width: 30%;
-        margin: 0.5rem auto 0 auto;
         font-size: 1.4rem;
-    }
-    form svg {
-        display: flex;
-        width: 100%;
-        margin-bottom: 10rem;
     }
     input {
         margin: 0;
         padding: 0;
     }
-
 </style>
 </head>
 <body>
@@ -119,30 +105,16 @@
     </header>
     <section>
         <form>
-            <input type="checkbox" id="leg1" name="leg1" style="order: 2;">
-            <label for="leg1" style="order: 3;">Leg 1</label> 
-            <input type="checkbox" id="leg2" name="leg2" style="order: 4;">
-            <label for="leg2" style="order: 5;">Leg 2</label>
-            <input type="checkbox" id="leg3" name="leg3" style="order: 6;">
-            <label for="leg3" style="order: 7;">Leg 3</label>
-            <input type="checkbox" id="leg4" name="leg4" style="order: 8;">
-            <label for="leg4" style="order: 9;">Leg 4</label>
-            <input type="checkbox" id="leg5" name="leg5" style="order: 10;">
-            <label for="leg5" style="order: 11;">Leg 5</label>
-            <input type="checkbox" id="leg6" name="leg6" style="order: 12;">
-            <label for="leg6" style="order: 13;">Leg 6</label>
-            <input type="checkbox" id="wing1" name="wing1" style="order: 14;">
-            <label for="wing1" style="order: 15;">wing1</label>
-            <input type="checkbox" id="wing2" name="wing2" style="order: 16;">
-            <label for="wing2" style="order: 17;">wing2</label>
-            <input type="checkbox" id="head" name="head" style="order: 18;">
-            <label for="head" style="order: 19;">head</label>
-            <input type="radio" id="responsiveness-no" name="responsiveness" value="no" style="" required>
-            <label for="responsiveness-no" style="">Not responsive</label>
-            <input type="radio" id="responsiveness-yes" name="responsiveness" value="yes" style="" required>
-            <label for="responsiveness-yes" style="">Responsive</label>
-            <input type="submit" value="Submit" style="order: 20;">
-<svg id="mosquito" viewBox="0 0 490.28 490.28" style="order: 1;">
+            <input type="checkbox" name="leg1"  style="top: 19%; left: 83%;">
+            <input type="checkbox" name="leg2"  style="top: 76%; left: 84%;">
+            <input type="checkbox" name="leg3"  style="top: 88%; left: 77%;">
+            <input type="checkbox" name="leg4"  style="top: 88%; right: 76%;">
+            <input type="checkbox" name="leg5"  style="top: 76%; right: 82%;">
+            <input type="checkbox" name="leg6"  style="top: 19%; right: 83%;">
+            <input type="checkbox" name="wing1" style="top: 45%; left: 89%;">
+            <input type="checkbox" name="wing2" style="top: 45%; right: 89%;">
+            <input type="checkbox" name="head"  style="top: 0%; left: 48%;">
+<svg id="mosquito" viewBox="0 0 490.28 490.28">
 <g>
 <path class="leg leg5" d="M127.939,425.977H99.39c-4.142,0-7.5-3.358-7.5-7.5s3.358-7.5,7.5-7.5h21.048V354.37     c0-2.815,1.577-5.393,4.083-6.676l49.76-25.474c3.685-1.885,8.206-0.429,10.094,3.259c1.887,3.687,0.429,8.206-3.259,10.094     l-45.677,23.383v59.521C135.439,422.619,132.081,425.977,127.939,425.977z"/>
 <path class="leg leg3" d="M361.625,490.28h-28.548c-4.142,0-7.5-3.358-7.5-7.5v-59.521L279.9,399.876     c-3.687-1.888-5.146-6.407-3.259-10.094c1.888-3.688,6.407-5.146,10.094-3.259l49.76,25.473c2.506,1.283,4.083,3.861,4.083,6.676     v56.607h21.048c4.142,0,7.5,3.358,7.5,7.5S365.767,490.28,361.625,490.28z"/>
@@ -169,6 +141,11 @@
 <path style="opacity:0.42;fill:#403E43;" d="M274.371,262.655c18.651-12.598,39.287-31.233,39.287-52.027   c0-37.94-30.757-68.697-68.697-68.697c-0.245,0-0.487,0.016-0.732,0.018c24.24,10.61,41.184,34.795,41.184,62.949   c0,20.794-5.874,53.644-24.525,66.241c19.328,5.73,24.525,17.017,24.525,37.811c0,35.672-27.19,90.12-61.975,96.504   c6.771,4.022,14.005,6.353,21.523,6.353c37.94,0,68.697-59.187,68.697-97.127C313.658,293.887,293.023,275.253,274.371,262.655z"/>
 </g>
 </svg>
+            <input type="radio" id="responsiveness-no" name="responsiveness" value="no" style="" required>
+            <label for="responsiveness-no" style="">Not responsive</label>
+            <input type="radio" id="responsiveness-yes" name="responsiveness" value="yes" style="" required>
+            <label for="responsiveness-yes" style="">Responsive</label>
+            <input type="submit" value="Submit" style="order: 20;">
     </form>
     </section>
 </body>
