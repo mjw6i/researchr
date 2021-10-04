@@ -91,8 +91,12 @@
         margin: 0;
         padding: 0;
     }
+    #responsiveness-yes, #responsiveness-no {
+        display: none;
+    }
     label[for=responsiveness-yes], label[for=responsiveness-no] {
         color: red;
+        display: block;
     }
     #responsiveness-yes:invalid ~ label[for=responsiveness-yes], #responsiveness-no:invalid ~ label[for=responsiveness-no] {
         color: #b4b4b4;
@@ -150,11 +154,11 @@
 <path style="opacity:0.42;fill:#403E43;" d="M274.371,262.655c18.651-12.598,39.287-31.233,39.287-52.027   c0-37.94-30.757-68.697-68.697-68.697c-0.245,0-0.487,0.016-0.732,0.018c24.24,10.61,41.184,34.795,41.184,62.949   c0,20.794-5.874,53.644-24.525,66.241c19.328,5.73,24.525,17.017,24.525,37.811c0,35.672-27.19,90.12-61.975,96.504   c6.771,4.022,14.005,6.353,21.523,6.353c37.94,0,68.697-59.187,68.697-97.127C313.658,293.887,293.023,275.253,274.371,262.655z"/>
 </g>
 </svg>
-            <input type="radio" id="responsiveness-no" name="responsiveness" value="no" style="" required>
-            <label for="responsiveness-no" style="">Not responsive</label>
-            <input type="radio" id="responsiveness-yes" name="responsiveness" value="yes" style="" required>
-            <label for="responsiveness-yes" style="">Responsive</label>
-            <input type="submit" value="Submit" style="order: 20;">
+            <input type="radio" id="responsiveness-no" name="responsiveness" value="no" required>
+            <label for="responsiveness-no">Not responsive</label>
+            <input type="radio" id="responsiveness-yes" name="responsiveness" value="yes" required>
+            <label for="responsiveness-yes">Responsive</label>
+            <input type="submit" value="Submit">
     </form>
     </section>
 </body>
