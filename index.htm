@@ -41,7 +41,7 @@
         max-width: 70vh;
         margin: 0 auto;
     }
-    form {
+    #mosquito-container {
         position: relative;
     }
     #mosquito {
@@ -86,6 +86,9 @@
     }
     form input[type=submit] {
         font-size: 1.4rem;
+        display: block;
+        margin: 2rem auto 0 auto;
+        padding: 0.8rem;
     }
     input {
         margin: 0;
@@ -96,7 +99,13 @@
     }
     label[for=responsiveness-yes], label[for=responsiveness-no] {
         color: red;
-        display: block;
+        display: inline-block;
+        width: 45%;
+        margin: 0 2%;
+        font-size: 1.4rem;
+    }
+    label[for=responsiveness-no] {
+        text-align: end;
     }
     #responsiveness-yes:invalid ~ label[for=responsiveness-yes], #responsiveness-no:invalid ~ label[for=responsiveness-no] {
         color: #b4b4b4;
@@ -118,15 +127,16 @@
     </header>
     <section>
         <form>
-            <input type="checkbox" name="leg1"  style="top: 19%; left: 83%;">
-            <input type="checkbox" name="leg2"  style="top: 76%; left: 84%;">
-            <input type="checkbox" name="leg3"  style="top: 88%; left: 77%;">
-            <input type="checkbox" name="leg4"  style="top: 88%; right: 76%;">
-            <input type="checkbox" name="leg5"  style="top: 76%; right: 82%;">
-            <input type="checkbox" name="leg6"  style="top: 19%; right: 83%;">
-            <input type="checkbox" name="wing1" style="top: 45%; left: 89%;">
-            <input type="checkbox" name="wing2" style="top: 45%; right: 89%;">
-            <input type="checkbox" name="head"  style="top: 0%; left: 48%;">
+            <div id="mosquito-container">
+                <input type="checkbox" name="leg1"  style="top: 22%; left: 83%;">
+                <input type="checkbox" name="leg2"  style="top: 83%; left: 83%;">
+                <input type="checkbox" name="leg3"  style="top: 95%; left: 77%;">
+                <input type="checkbox" name="leg4"  style="top: 95%; right: 76%;">
+                <input type="checkbox" name="leg5"  style="top: 83%; right: 82%;">
+                <input type="checkbox" name="leg6"  style="top: 22%; right: 83%;">
+                <input type="checkbox" name="wing1" style="top: 50%; left: 89%;">
+                <input type="checkbox" name="wing2" style="top: 50%; right: 89%;">
+                <input type="checkbox" name="head"  style="top: 0%; left: calc(50% - 2rem);">
 <svg id="mosquito" viewBox="0 0 490.28 490.28">
 <g>
 <path class="leg leg5" d="M127.939,425.977H99.39c-4.142,0-7.5-3.358-7.5-7.5s3.358-7.5,7.5-7.5h21.048V354.37     c0-2.815,1.577-5.393,4.083-6.676l49.76-25.474c3.685-1.885,8.206-0.429,10.094,3.259c1.887,3.687,0.429,8.206-3.259,10.094     l-45.677,23.383v59.521C135.439,422.619,132.081,425.977,127.939,425.977z"/>
@@ -154,6 +164,7 @@
 <path style="opacity:0.42;fill:#403E43;" d="M274.371,262.655c18.651-12.598,39.287-31.233,39.287-52.027   c0-37.94-30.757-68.697-68.697-68.697c-0.245,0-0.487,0.016-0.732,0.018c24.24,10.61,41.184,34.795,41.184,62.949   c0,20.794-5.874,53.644-24.525,66.241c19.328,5.73,24.525,17.017,24.525,37.811c0,35.672-27.19,90.12-61.975,96.504   c6.771,4.022,14.005,6.353,21.523,6.353c37.94,0,68.697-59.187,68.697-97.127C313.658,293.887,293.023,275.253,274.371,262.655z"/>
 </g>
 </svg>
+            </div>
             <input type="radio" id="responsiveness-no" name="responsiveness" value="no" required>
             <label for="responsiveness-no">Not responsive</label>
             <input type="radio" id="responsiveness-yes" name="responsiveness" value="yes" required>
