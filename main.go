@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-var layout = template.Must(template.ParseFiles("index.htm", "mosquito.htm"))
+var layout = template.Must(template.ParseFiles("template/index.htm", "template/mosquito.htm"))
 
 func main() {
 	http.HandleFunc("/", homeHandler)
