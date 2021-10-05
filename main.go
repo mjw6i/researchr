@@ -10,7 +10,7 @@ var layout = template.Must(template.ParseFiles("template/index.htm", "template/m
 
 func main() {
 	http.HandleFunc("/", homeHandler)
-
+	http.Handle("/static/", http.StripPrefix("/static", http.FileServer(http.Dir("./static"))))
 	log.Fatal(http.ListenAndServe(":9000", nil))
 }
 
