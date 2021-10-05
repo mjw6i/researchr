@@ -54,6 +54,8 @@ ul {
 }
 #mosquito .leg {
     fill: #c4c4c4;
+}
+#mosquito .leg, #mosquito .head, #mosquito .wing1, #mosquito .wing2 {
     transition-duration: 0.45s;
     transition-timing-function: ease;
 }
