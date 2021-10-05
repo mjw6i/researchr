@@ -1,0 +1,21 @@
+<section id="mosquito-section">
+    <form>
+        <div id="mosquito-container">
+            <input type="checkbox" name="leg1"  style="top: 21%; left: 83%;">
+            <input type="checkbox" name="leg2"  style="top: 83%; left: 83%;">
+            <input type="checkbox" name="leg3"  style="top: 95%; left: 77%;">
+            <input type="checkbox" name="leg4"  style="top: 95%; right: 76%;">
+            <input type="checkbox" name="leg5"  style="top: 83%; right: 82%;">
+            <input type="checkbox" name="leg6"  style="top: 21%; right: 83%;">
+            <input type="checkbox" name="wing1" style="top: 50%; left: 89%;">
+            <input type="checkbox" name="wing2" style="top: 50%; right: 89%;">
+            <input type="checkbox" name="head"  style="top: 0%; left: calc(50% - 2rem);">
+            {{ template "mosquito.htm" }}
+        </div>
+        <input type="radio" id="responsiveness-yes" name="responsiveness" value="yes" required>
+        <label for="responsiveness-yes">Responsive</label>
+        <input type="radio" id="responsiveness-no" name="responsiveness" value="no" required>
+        <label for="responsiveness-no">Not responsive</label>
+        <input type="submit" value="Submit">
+    </form>
+</section>
