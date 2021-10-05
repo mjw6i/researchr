@@ -141,7 +141,6 @@ h1 {
 }
 #scientist {
     width: 22%;
-    fill: var(--contrast-3);
     position: absolute;
     top: 23%;
     right: 15%;
