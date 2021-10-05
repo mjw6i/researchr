@@ -107,7 +107,7 @@
         margin: 0 2%;
         font-size: 1.4rem;
     }
-    label[for=responsiveness-no] {
+    label[for=responsiveness-yes] {
         text-align: end;
     }
     #responsiveness-yes:invalid ~ label[for=responsiveness-yes], #responsiveness-no:invalid ~ label[for=responsiveness-no] {
@@ -168,10 +168,10 @@
 </g>
 </svg>
             </div>
-            <input type="radio" id="responsiveness-no" name="responsiveness" value="no" required>
-            <label for="responsiveness-no">Not responsive</label>
             <input type="radio" id="responsiveness-yes" name="responsiveness" value="yes" required>
             <label for="responsiveness-yes">Responsive</label>
+            <input type="radio" id="responsiveness-no" name="responsiveness" value="no" required>
+            <label for="responsiveness-no">Not responsive</label>
             <input type="submit" value="Submit">
     </form>
     </section>
