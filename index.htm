@@ -118,9 +118,28 @@
     #responsiveness-yes:checked ~ label[for=responsiveness-yes], #responsiveness-no:checked ~ label[for=responsiveness-no] {
         color: green;
     }
+    #scientist-section {
+        padding-top: calc(25vh + 10rem);
+        min-height: 70vh;
+        position: relative;
+    }
+    h1 {
+        padding: 0;
+        margin: 0;
+    }
+    #scientist-section p {
+        width: 50%;
+        font-size: 3rem;
+    }
     #scientist {
-        width: 20%;
+        width: 30%;
         fill: #b4b4b4;
+        position: absolute;
+        top: 22%;
+        right: 2%;
+    }
+    h1 {
+        font-size: 8rem;
     }
 </style>
 </head>
@@ -134,7 +153,8 @@
             </ul>
         </nav>
     </header>
-    <section>
+    <section id="scientist-section">
+        <h1>EXPERIMENT</h1>
 <svg id="scientist" viewBox="0 0 463 463">
 <path d="M398.901,325.619l-76.69-19.173c-0.738-6.717-4.331-13.04-10.299-17.019l-6.636-4.423
 	C328.395,260.158,343,223.865,343,183.5c0-7.383-0.496-14.668-1.459-21.837C342.58,153.514,351,85.492,351,23.5
@@ -176,6 +196,7 @@
 	c1.972-0.493,3.659-1.766,4.676-3.525s1.275-3.857,0.717-5.812l-13.048-45.668l49.6,12.4c21.63,5.407,36.737,24.756,36.737,47.052
 	V439.5z"/>
 </svg>
+<p>The legend has it that there was an experiment in which a fly devoided of its wings and legs would no longer run away from a semi truck horn, therefore it went deaf. <br/><br/>We're attempting to test this theory on mosquitos.</p>
     </section>
     <section id="mosquito-section">
         <form>
