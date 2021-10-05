@@ -59,30 +59,14 @@
     #mosquito .leg {
         fill: #e7e7e7;
     }
-    form input[name=leg1]:checked ~ #mosquito .leg1 {
-        visibility: hidden;
-    }
-    form input[name=leg2]:checked ~ #mosquito .leg2 {
-        visibility: hidden;
-    }
-    form input[name=leg3]:checked ~ #mosquito .leg3 {
-        visibility: hidden;
-    }
-    form input[name=leg4]:checked ~ #mosquito .leg4 {
-        visibility: hidden;
-    }
-    form input[name=leg5]:checked ~ #mosquito .leg5 {
-        visibility: hidden;
-    }
-    form input[name=leg6]:checked ~ #mosquito .leg6 {
-        visibility: hidden;
-    }
-    form input[name=head]:checked ~ #mosquito .head {
-        visibility: hidden;
-    }
-    form input[name=wing1]:checked ~ #mosquito .wing1 {
-        visibility: hidden;
-    }
+    form input[name=leg1]:checked ~ #mosquito .leg1,
+    form input[name=leg2]:checked ~ #mosquito .leg2,
+    form input[name=leg3]:checked ~ #mosquito .leg3,
+    form input[name=leg4]:checked ~ #mosquito .leg4,
+    form input[name=leg5]:checked ~ #mosquito .leg5,
+    form input[name=leg6]:checked ~ #mosquito .leg6,
+    form input[name=head]:checked ~ #mosquito .head,
+    form input[name=wing1]:checked ~ #mosquito .wing1,
     form input[name=wing2]:checked ~ #mosquito .wing2 {
         visibility: hidden;
     }
@@ -256,12 +240,12 @@
     <section id="mosquito-section">
         <form>
             <div id="mosquito-container">
-                <input type="checkbox" name="leg1"  style="top: 22%; left: 83%;">
+                <input type="checkbox" name="leg1"  style="top: 21%; left: 83%;">
                 <input type="checkbox" name="leg2"  style="top: 83%; left: 83%;">
                 <input type="checkbox" name="leg3"  style="top: 95%; left: 77%;">
                 <input type="checkbox" name="leg4"  style="top: 95%; right: 76%;">
                 <input type="checkbox" name="leg5"  style="top: 83%; right: 82%;">
-                <input type="checkbox" name="leg6"  style="top: 22%; right: 83%;">
+                <input type="checkbox" name="leg6"  style="top: 21%; right: 83%;">
                 <input type="checkbox" name="wing1" style="top: 50%; left: 89%;">
                 <input type="checkbox" name="wing2" style="top: 50%; right: 89%;">
                 <input type="checkbox" name="head"  style="top: 0%; left: calc(50% - 2rem);">
