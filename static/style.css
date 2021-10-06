@@ -57,7 +57,7 @@ ul {
     display: block;
     margin: 0 auto 5rem auto;
     padding-top: 5rem;
-    max-height: 60vh;
+    max-height: 55vh;
 }
 #mosquito .leg {
     fill: #c4c4c4;
@@ -99,8 +99,9 @@ form input[type=checkbox]:checked:after {
 form input[type=submit] {
     font-size: 1.4rem;
     display: block;
-    padding: 0.8rem;
-    margin-top: 2rem;
+    padding: 0.6rem;
+    margin-top: 3rem;
+    order: 4;
 }
 #responsiveness-yes:invalid ~ input[type=submit] {
     text-decoration: line-through;
@@ -129,38 +130,59 @@ input {
 }
 label[for=responsiveness-yes] {
     justify-content: end;
+    order: 1;
+}
+label[for=responsiveness-no] {
+    order: 3;
 }
 #responsiveness-yes:invalid ~ label[for=responsiveness-yes], #responsiveness-no:invalid ~ label[for=responsiveness-no] {
     color: var(--contrast-3);
+    animation-name: highlight;
+    animation-duration: 3s;
+    animation-iteration-count: infinite;
 }
 #responsiveness-yes:checked ~ label[for=responsiveness-yes], #responsiveness-no:checked ~ label[for=responsiveness-no] {
     color: var(--contrast-1);
 }
-#responsiveness-yes:checked ~ .flask {
-    transform: rotate(-25deg);
-    animation-name: none;
+#responsiveness-yes:checked ~ .flask-rotate {
+    transform: rotate(-35deg);
 }
-#responsiveness-no:checked ~ .flask {
-    transform: rotate(25deg);
-    animation-name: none;
+#responsiveness-no:checked ~ .flask-rotate {
+    transform: rotate(35deg);
 }
-#responsiveness-container .flask {
+#responsiveness-container .flask-rotate {
+    order: 2;
     display: flex;
     width: 20%;
-    animation-duration: 3.2s;
+    transform: rotate(0deg);
+    transition-duration: 1s;
+}
+#responsiveness-container .flask {
+    animation-duration: 3s;
     animation-timing-function: ease-in-out;
     animation-name: tinyswing;
     animation-iteration-count: infinite;
 }
 @keyframes tinyswing {
     from {
-        transform: rotate(-8deg);
+        transform: rotate(-7deg);
     }
     50% {
-        transform: rotate(8deg);
+        transform: rotate(7deg);
     }
     to {
-        transform: rotate(-8deg);
+        transform: rotate(-7deg);
+    }
+}
+@keyframes highlight {
+    45% {
+        color: inherit;
+    }
+    50% {
+        color: var(--contrast-1);
+    }
+    55% {
+        color: inherit;
     }
 }
 #scientist-section {
@@ -176,9 +198,12 @@ h1 {
     font-weight: 200;
     color: var(--contrast-1);
 }
-@media (max-width: 1800px) {
+@media (max-width: 2000px) {
     h1 {
         font-size: 7rem;
+    }
+    #mosquito {
+        max-height: 45vh;
     }
 }
 #scientist-section p {

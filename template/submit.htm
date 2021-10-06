@@ -1,6 +1,6 @@
 {{ define "content" }}
 <section id="mosquito-section">
-    <form>
+    <form method="POST" action="/results">
         <div id="mosquito-container">
             <input type="checkbox" name="leg1"  style="top: 21%; left: 83%;">
             <input type="checkbox" name="leg2"  style="top: 83%; left: 83%;">
@@ -16,9 +16,9 @@
         <div id="responsiveness-container">
             <input type="radio" id="responsiveness-yes" name="responsiveness" value="yes" required>
             <label for="responsiveness-yes">Responsive</label>
-            <img class="flask" src="/static/flask.svg" />
             <input type="radio" id="responsiveness-no" name="responsiveness" value="no" required>
             <label for="responsiveness-no">Not responsive</label>
+            <div class="flask-rotate"><img class="flask" src="/static/flask.svg" /></div>
             <input type="submit" value="Submit">
         </div>
     </form>
