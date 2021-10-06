@@ -243,3 +243,7 @@ h1 {
     margin-top: 3rem;
     font-size: 2rem;
 }
+#assets-section {
+    width: 70%;
+    margin: 30vh auto 0 auto;
+}

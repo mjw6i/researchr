@@ -9,11 +9,13 @@ import (
 var home = template.Must(template.ParseFiles("template/layout.htm", "template/home.htm"))
 var submit = template.Must(template.ParseFiles("template/layout.htm", "template/submit.htm", "template/mosquito.htm"))
 var results = template.Must(template.ParseFiles("template/layout.htm", "template/results.htm"))
+var assets = template.Must(template.ParseFiles("template/layout.htm", "template/assets.htm"))
 
 func main() {
 	http.HandleFunc("/", homeHandler)
 	http.HandleFunc("/submit", submitHandler)
 	http.HandleFunc("/results", resultsHandler)
+	http.HandleFunc("/assets", assetsHandler)
 	http.Handle("/static/", http.StripPrefix("/static", http.FileServer(http.Dir("./static"))))
 	log.Fatal(http.ListenAndServe(":9000", nil))
 }
@@ -38,6 +40,13 @@ func submitHandler(w http.ResponseWriter, r *http.Request) {
 
 func resultsHandler(w http.ResponseWriter, r *http.Request) {
 	err := results.ExecuteTemplate(w, "layout.htm", "")
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func assetsHandler(w http.ResponseWriter, r *http.Request) {
+	err := assets.ExecuteTemplate(w, "layout.htm", "")
 	if err != nil {
 		log.Fatal(err)
 	}
