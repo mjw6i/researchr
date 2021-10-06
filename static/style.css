@@ -39,8 +39,10 @@ a:hover {
 nav {
     display: flex;
 }
-ul {
+nav ul {
     display: flex;
+}
+ul {
     list-style: none;
     margin: 0;
     padding: 0;
@@ -246,4 +248,11 @@ h1 {
 #assets-section {
     width: 70%;
     margin: 30vh auto 0 auto;
+}
+#assets-section a {
+    display: inline-block;
+    font-size: 1.4rem;
+    padding: 0.5rem;
+    margin: 2rem 0;
+    line-height: 1;
 }
