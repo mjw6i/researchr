@@ -145,9 +145,8 @@ h1 {
     top: 23%;
     right: 15%;
 }
-#flask {
+#scientist-section .flask {
     width: 13%;
-    fill: var(--contrast-3);
     position: absolute;
     top: 26%;
     right: 6%;
