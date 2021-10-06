@@ -2,6 +2,7 @@
     --contrast-1: #e7e7e7;
     --contrast-2: #c4c4c4;
     --contrast-3: #afafaf;
+    --contrast-4: #888888;
 }
 body {
     background-image: linear-gradient(195deg, #250a48, #200846, #1b0745, #150543, #0f0242);
@@ -98,8 +99,8 @@ form input[type=checkbox]:checked:after {
 form input[type=submit] {
     font-size: 1.4rem;
     display: block;
-    margin: 2rem auto 0 auto;
     padding: 0.8rem;
+    margin-top: 2rem;
 }
 #responsiveness-yes:invalid ~ input[type=submit] {
     text-decoration: line-through;
@@ -111,21 +112,48 @@ input {
 #responsiveness-yes, #responsiveness-no {
     display: none;
 }
-label[for=responsiveness-yes], label[for=responsiveness-no] {
-    color: red;
-    display: inline-block;
-    width: 45%;
-    margin: 0 2%;
-    font-size: 1.4rem;
+#responsiveness-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+#responsiveness-container label {
+    color: var(--contrast-4);
+    display: flex;
+    width: 40%;
+    font-size: 2rem;
+}
+#responsiveness-container label:hover {
+    color: var(--contrast-1) !important;
 }
 label[for=responsiveness-yes] {
-    text-align: end;
+    justify-content: end;
 }
 #responsiveness-yes:invalid ~ label[for=responsiveness-yes], #responsiveness-no:invalid ~ label[for=responsiveness-no] {
     color: var(--contrast-3);
 }
 #responsiveness-yes:checked ~ label[for=responsiveness-yes], #responsiveness-no:checked ~ label[for=responsiveness-no] {
-    color: green;
+    color: var(--contrast-1);
+}
+#responsiveness-container .flask {
+    display: flex;
+    width: 20%;
+    animation-duration: 3.2s;
+    animation-timing-function: ease-in-out;
+    animation-name: tinyswing;
+    animation-iteration-count: infinite;
+}
+@keyframes tinyswing {
+    from {
+        transform: rotate(-8deg);
+    }
+    50% {
+        transform: rotate(8deg);
+    }
+    to {
+        transform: rotate(-8deg);
+    }
 }
 #scientist-section {
     padding: 30vh 15% 0 15%;
