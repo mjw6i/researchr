@@ -97,11 +97,20 @@ form input[type=checkbox]:checked:after {
     transform: rotate(45deg);
 }
 form input[type=submit] {
-    font-size: 1.4rem;
+    color: var(--contrast-3);
+    border: 0.3rem solid var(--contrast-3);
+    border-radius: 1rem;
+    background: none;
+    font-size: 1.8rem;
     display: block;
-    padding: 0.6rem;
+    padding: 1.2rem 1.6rem;
     margin-top: 3rem;
     order: 4;
+    transition-duration: 0.15s;
+}
+form input[type=submit]:hover {
+    color: var(--contrast-1);
+    border-color: var(--contrast-1);
 }
 #responsiveness-yes:invalid ~ input[type=submit] {
     text-decoration: line-through;
@@ -122,7 +131,7 @@ input {
 #responsiveness-container label {
     color: var(--contrast-4);
     display: flex;
-    width: 40%;
+    width: 42.5%;
     font-size: 2rem;
 }
 #responsiveness-container label:hover {
@@ -153,7 +162,7 @@ label[for=responsiveness-no] {
 #responsiveness-container .flask-rotate {
     order: 2;
     display: flex;
-    width: 20%;
+    width: 15%;
     transform: rotate(0deg);
     transition-duration: 1s;
 }
