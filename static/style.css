@@ -27,9 +27,13 @@ header a {
 a {
     color: var(--contrast-1);
     text-decoration: none;
+    transition-duration: 0.15s;
 }
 a#logo {
     font-size: 2.4rem;
+}
+a:hover {
+    color: #ffffff;
 }
 nav {
     display: flex;
@@ -136,6 +140,11 @@ h1 {
     font-weight: 200;
     color: var(--contrast-1);
 }
+@media (max-width: 1800px) {
+    h1 {
+        font-size: 7rem;
+    }
+}
 #scientist-section p {
     width: 55%;
     margin-top: 3rem;
@@ -146,6 +155,7 @@ h1 {
     position: absolute;
     top: 28%;
     right: 15%;
+    user-select: none;
 }
 #scientist-section .flask {
     width: 13%;
@@ -153,9 +163,13 @@ h1 {
     top: 32%;
     right: 6%;
     transform: rotate(25deg);
+    user-select: none;
 }
-@media (max-width: 1800px) {
-    h1 {
-        font-size: 7rem;
-    }
+#results-section {
+    width: 70%;
+    margin: 30vh auto 0 auto;
+}
+#results-section p {
+    margin-top: 3rem;
+    font-size: 2rem;
 }
