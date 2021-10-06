@@ -136,6 +136,14 @@ label[for=responsiveness-yes] {
 #responsiveness-yes:checked ~ label[for=responsiveness-yes], #responsiveness-no:checked ~ label[for=responsiveness-no] {
     color: var(--contrast-1);
 }
+#responsiveness-yes:checked ~ .flask {
+    transform: rotate(-25deg);
+    animation-name: none;
+}
+#responsiveness-no:checked ~ .flask {
+    transform: rotate(25deg);
+    animation-name: none;
+}
 #responsiveness-container .flask {
     display: flex;
     width: 20%;
