@@ -124,7 +124,7 @@ label[for=responsiveness-yes] {
 }
 #scientist-section {
     padding: 30vh 15% 0 15%;
-    min-height: 70vh;
+    min-height: 50vh;
     position: relative;
     overflow: hidden;
 }
@@ -143,13 +143,13 @@ h1 {
 #scientist {
     width: 22%;
     position: absolute;
-    top: 23%;
+    top: 28%;
     right: 15%;
 }
 #scientist-section .flask {
     width: 13%;
     position: absolute;
-    top: 26%;
+    top: 32%;
     right: 6%;
     transform: rotate(25deg);
 }
