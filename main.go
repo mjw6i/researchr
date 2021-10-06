@@ -6,7 +6,8 @@ import (
 	"net/http"
 )
 
-var layout = template.Must(template.ParseFiles("template/layout.htm", "template/home.htm", "template/submit.htm", "template/mosquito.htm"))
+var home = template.Must(template.ParseFiles("template/layout.htm", "template/home.htm"))
+var submit = template.Must(template.ParseFiles("template/layout.htm", "template/submit.htm", "template/mosquito.htm"))
 
 func main() {
 	http.HandleFunc("/", homeHandler)
@@ -20,22 +21,14 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 		http.NotFound(w, r)
 		return
 	}
-	err := layout.ExecuteTemplate(w, "home.htm", "")
-	if err != nil {
-		log.Fatal(err)
-	}
-	err = layout.ExecuteTemplate(w, "layout.htm", "")
+	err := home.ExecuteTemplate(w, "layout.htm", "")
 	if err != nil {
 		log.Fatal(err)
 	}
 }
 
 func submitHandler(w http.ResponseWriter, r *http.Request) {
-	err := layout.ExecuteTemplate(w, "submit.htm", "")
-	if err != nil {
-		log.Fatal(err)
-	}
-	err = layout.ExecuteTemplate(w, "layout.htm", "")
+	err := submit.ExecuteTemplate(w, "layout.htm", "")
 	if err != nil {
 		log.Fatal(err)
 	}
