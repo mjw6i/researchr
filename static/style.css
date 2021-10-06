@@ -51,7 +51,8 @@ ul {
 #mosquito {
     display: block;
     margin: 0 auto 5rem auto;
-    padding-top: 5rem; 
+    padding-top: 5rem;
+    max-height: 60vh;
 }
 #mosquito .leg {
     fill: #c4c4c4;
