@@ -14,7 +14,7 @@ var assets = loadNestedTemplates("template/assets.htm")
 var static = http.StripPrefix("/static", http.FileServer(http.Dir("./static")))
 
 func main() {
-	http.HandleFunc("/", homeHandler)
+	http.HandleFunc("/", baseHandler)
 	http.HandleFunc("/submit", submitHandler)
 	http.HandleFunc("/results", resultsHandler)
 	http.HandleFunc("/assets", assetsHandler)
@@ -22,11 +22,16 @@ func main() {
 	log.Fatal(http.ListenAndServe(":9000", nil))
 }
 
-func homeHandler(w http.ResponseWriter, r *http.Request) {
+func baseHandler(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/" {
 		http.NotFound(w, r)
 		return
 	}
+
+	homeHandler(w, r)
+}
+
+func homeHandler(w http.ResponseWriter, r *http.Request) {
 	render(w, home)
 }
 
