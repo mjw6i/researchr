@@ -3,6 +3,7 @@ package main
 import (
 	"net/http"
 	"net/http/httptest"
+	"strings"
 	"testing"
 )
 
@@ -11,6 +12,13 @@ func TestRandomRoute(t *testing.T) {
 
 	assertStatus(t, recorder, 404)
 	assertBody(t, recorder, "404 page not found\n")
+}
+
+func TestHomeRoute(t *testing.T) {
+	recorder := makeRequest(t, homeHandler, "/")
+
+	assertStatus(t, recorder, 200)
+	assertBodyStartsWith(t, recorder, "<!DOCTYPE html>")
 }
 
 func makeRequest(t *testing.T, h func(http.ResponseWriter, *http.Request), url string) *httptest.ResponseRecorder {
@@ -30,6 +38,13 @@ func makeRequest(t *testing.T, h func(http.ResponseWriter, *http.Request), url s
 func assertBody(t *testing.T, r *httptest.ResponseRecorder, expected string) {
 	if r.Body.String() != expected {
 		t.Errorf("Expected response: '%v' got '%v'", expected, r.Body.String())
+	}
+}
+
+func assertBodyStartsWith(t *testing.T, r *httptest.ResponseRecorder, expected string) {
+	if !strings.HasPrefix(r.Body.String(), expected) {
+		comp := r.Body.String() + strings.Repeat("#", len(expected))
+		t.Errorf("Expected prefix: '%v' got '%v'", expected, comp[0:len(expected)])
 	}
 }
 
