@@ -35,23 +35,25 @@ func baseHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
-	render(w, home)
+	render(w, home, nil)
 }
 
 func submitHandler(w http.ResponseWriter, r *http.Request) {
-	render(w, submit)
+	render(w, submit, nil)
 }
 
 func (env *Env) resultsHandler(w http.ResponseWriter, r *http.Request) {
-	render(w, results)
+	res, _ := env.store.getResult()
+
+	render(w, results, res)
 }
 
 func assetsHandler(w http.ResponseWriter, r *http.Request) {
-	render(w, assets)
+	render(w, assets, nil)
 }
 
-func render(w http.ResponseWriter, t *template.Template) {
-	err := t.ExecuteTemplate(w, "layout.htm", "")
+func render(w http.ResponseWriter, t *template.Template, data interface{}) {
+	err := t.ExecuteTemplate(w, "layout.htm", data)
 	if err != nil {
 		log.Fatal(err)
 	}

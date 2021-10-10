@@ -5,14 +5,14 @@ type DataStore interface {
 }
 
 type Result struct {
-	remainedResponsivePercent float64
+	RemainedResponsivePercent string
 }
 
 type MockDataStore struct{}
 
 func (store MockDataStore) getResult() (Result, error) {
 	result := Result{
-		remainedResponsivePercent: 13.5,
+		RemainedResponsivePercent: "13.59",
 	}
 
 	return result, nil
