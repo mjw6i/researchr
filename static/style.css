@@ -107,7 +107,6 @@ form input[type=submit] {
     display: block;
     padding: 1.2rem 1.6rem;
     margin-top: 3rem;
-    order: 4;
     transition-duration: 0.15s;
 }
 form input[type=submit]:hover {
@@ -141,10 +140,6 @@ input {
 }
 label[for=responsiveness-yes] {
     justify-content: end;
-    order: 1;
-}
-label[for=responsiveness-no] {
-    order: 3;
 }
 #responsiveness-yes:invalid ~ label[for=responsiveness-yes], #responsiveness-no:invalid ~ label[for=responsiveness-no] {
     color: var(--contrast-3);
@@ -162,7 +157,6 @@ label[for=responsiveness-no] {
     transform: rotate(35deg);
 }
 #responsiveness-container .flask-rotate {
-    order: 2;
     display: flex;
     width: 15%;
     transform: rotate(0deg);
