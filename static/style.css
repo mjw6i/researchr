@@ -258,6 +258,7 @@ h1 {
     height: 15rem;
     margin-bottom: 0.5rem;
     align-items: end;
+    background: rgba(0, 0, 0, 0.25);
 }
 #responsiveness-chart-data li, #responsiveness-chart-labels li {
     display: flex;
