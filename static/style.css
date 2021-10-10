@@ -250,3 +250,33 @@ h1 {
     margin: 2rem 0;
     line-height: 1;
 }
+#responsiveness-chart-data, #responsiveness-chart-labels {
+    display: flex;
+    justify-content: space-around;
+}
+#responsiveness-chart-data {
+    height: 15rem;
+    margin-bottom: 0.5rem;
+    align-items: end;
+}
+#responsiveness-chart-data li, #responsiveness-chart-labels li {
+    display: flex;
+    width: 8%;
+}
+#responsiveness-chart-data li {
+    background-color: var(--contrast-2);
+}
+#responsiveness-chart-labels li {
+    justify-content: center;
+    text-align: center;
+}
+#responsiveness-chart-data .axis {
+    flex-direction: column;
+    background: none;
+}
+#responsiveness-chart-data .axis span {
+    height: 10%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
