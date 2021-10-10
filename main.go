@@ -6,10 +6,10 @@ import (
 	"net/http"
 )
 
-var home = template.Must(template.ParseFiles("template/layout.htm", "template/home.htm"))
-var submit = template.Must(template.ParseFiles("template/layout.htm", "template/submit.htm", "template/mosquito.htm"))
-var results = template.Must(template.ParseFiles("template/layout.htm", "template/results.htm"))
-var assets = template.Must(template.ParseFiles("template/layout.htm", "template/assets.htm"))
+var home = loadNestedTemplates("template/home.htm")
+var submit = loadNestedTemplates("template/submit.htm", "template/mosquito.htm")
+var results = loadNestedTemplates("template/results.htm")
+var assets = loadNestedTemplates("template/assets.htm")
 
 var static = http.StripPrefix("/static", http.FileServer(http.Dir("./static")))
 
@@ -47,4 +47,9 @@ func render(w http.ResponseWriter, t *template.Template) {
 	if err != nil {
 		log.Fatal(err)
 	}
+}
+
+func loadNestedTemplates(filenames ...string) *template.Template {
+	t := append([]string{"template/layout.htm"}, filenames...)
+	return template.Must(template.ParseFiles(t...))
 }
