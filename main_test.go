@@ -21,6 +21,27 @@ func TestHomeRoute(t *testing.T) {
 	assertBodyStartsWith(t, recorder, "<!DOCTYPE html>")
 }
 
+func TestSubmitRoute(t *testing.T) {
+	recorder := makeRequest(t, submitHandler, "/submit")
+
+	assertStatus(t, recorder, 200)
+	assertBodyStartsWith(t, recorder, "<!DOCTYPE html>")
+}
+
+func TestResultsRoute(t *testing.T) {
+	recorder := makeRequest(t, resultsHandler, "/results")
+
+	assertStatus(t, recorder, 200)
+	assertBodyStartsWith(t, recorder, "<!DOCTYPE html>")
+}
+
+func TestAssetsRoute(t *testing.T) {
+	recorder := makeRequest(t, assetsHandler, "/assets")
+
+	assertStatus(t, recorder, 200)
+	assertBodyStartsWith(t, recorder, "<!DOCTYPE html>")
+}
+
 func TestStyleFile(t *testing.T) {
 	recorder := makeRequest(t, static.ServeHTTP, "/static/style.css")
 
