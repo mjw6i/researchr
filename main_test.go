@@ -36,7 +36,10 @@ func TestSubmitRoute(t *testing.T) {
 }
 
 func TestResultsRoute(t *testing.T) {
-	recorder := makeRequest(t, resultsHandler, "/results")
+	ds := MockDataStore{}
+	env := &Env{store: ds}
+
+	recorder := makeRequest(t, env.resultsHandler, "/results")
 
 	assertStatus(t, recorder, 200)
 	assertBodyStartsWith(t, recorder, "<!DOCTYPE html>")

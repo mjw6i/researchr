@@ -14,9 +14,12 @@ var assets = loadNestedTemplates("template/assets.htm")
 var static = http.StripPrefix("/static", http.FileServer(http.Dir("./static")))
 
 func main() {
+	ds := MockDataStore{}
+	env := &Env{store: ds}
+
 	http.HandleFunc("/", baseHandler)
 	http.HandleFunc("/submit", submitHandler)
-	http.HandleFunc("/results", resultsHandler)
+	http.HandleFunc("/results", env.resultsHandler)
 	http.HandleFunc("/assets", assetsHandler)
 	http.Handle("/static/", static)
 	log.Fatal(http.ListenAndServe(":9000", nil))
@@ -39,7 +42,7 @@ func submitHandler(w http.ResponseWriter, r *http.Request) {
 	render(w, submit)
 }
 
-func resultsHandler(w http.ResponseWriter, r *http.Request) {
+func (env *Env) resultsHandler(w http.ResponseWriter, r *http.Request) {
 	render(w, results)
 }
 
