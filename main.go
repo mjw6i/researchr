@@ -27,28 +27,23 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 		http.NotFound(w, r)
 		return
 	}
-	err := home.ExecuteTemplate(w, "layout.htm", "")
-	if err != nil {
-		log.Fatal(err)
-	}
+	render(w, home)
 }
 
 func submitHandler(w http.ResponseWriter, r *http.Request) {
-	err := submit.ExecuteTemplate(w, "layout.htm", "")
-	if err != nil {
-		log.Fatal(err)
-	}
+	render(w, submit)
 }
 
 func resultsHandler(w http.ResponseWriter, r *http.Request) {
-	err := results.ExecuteTemplate(w, "layout.htm", "")
-	if err != nil {
-		log.Fatal(err)
-	}
+	render(w, results)
 }
 
 func assetsHandler(w http.ResponseWriter, r *http.Request) {
-	err := assets.ExecuteTemplate(w, "layout.htm", "")
+	render(w, assets)
+}
+
+func render(w http.ResponseWriter, t *template.Template) {
+	err := t.ExecuteTemplate(w, "layout.htm", "")
 	if err != nil {
 		log.Fatal(err)
 	}
