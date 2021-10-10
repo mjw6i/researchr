@@ -9,13 +9,8 @@ import (
 func TestRandomRoute(t *testing.T) {
 	recorder := makeRequest(t, homeHandler, "/random")
 
-	expectedBody := "404 page not found\n"
-
 	assertStatus(t, recorder, 404)
-
-	if recorder.Body.String() != expectedBody {
-		t.Errorf("Expected response: '%v' got '%v'", expectedBody, recorder.Body.String())
-	}
+	assertBody(t, recorder, "404 page not found\n")
 }
 
 func makeRequest(t *testing.T, h func(http.ResponseWriter, *http.Request), url string) *httptest.ResponseRecorder {
@@ -30,6 +25,12 @@ func makeRequest(t *testing.T, h func(http.ResponseWriter, *http.Request), url s
 	handler.ServeHTTP(recorder, req)
 
 	return recorder
+}
+
+func assertBody(t *testing.T, r *httptest.ResponseRecorder, expected string) {
+	if r.Body.String() != expected {
+		t.Errorf("Expected response: '%v' got '%v'", expected, r.Body.String())
+	}
 }
 
 func assertStatus(t *testing.T, r *httptest.ResponseRecorder, expected int) {
