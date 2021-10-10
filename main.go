@@ -11,12 +11,14 @@ var submit = template.Must(template.ParseFiles("template/layout.htm", "template/
 var results = template.Must(template.ParseFiles("template/layout.htm", "template/results.htm"))
 var assets = template.Must(template.ParseFiles("template/layout.htm", "template/assets.htm"))
 
+var static = http.StripPrefix("/static", http.FileServer(http.Dir("./static")))
+
 func main() {
 	http.HandleFunc("/", homeHandler)
 	http.HandleFunc("/submit", submitHandler)
 	http.HandleFunc("/results", resultsHandler)
 	http.HandleFunc("/assets", assetsHandler)
-	http.Handle("/static/", http.StripPrefix("/static", http.FileServer(http.Dir("./static"))))
+	http.Handle("/static/", static)
 	log.Fatal(http.ListenAndServe(":9000", nil))
 }
 

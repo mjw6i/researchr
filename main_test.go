@@ -21,6 +21,13 @@ func TestHomeRoute(t *testing.T) {
 	assertBodyStartsWith(t, recorder, "<!DOCTYPE html>")
 }
 
+func TestStyleFile(t *testing.T) {
+	recorder := makeRequest(t, static.ServeHTTP, "/static/style.css")
+
+	assertStatus(t, recorder, 200)
+	assertBodyStartsWith(t, recorder, ":root {")
+}
+
 func makeRequest(t *testing.T, h func(http.ResponseWriter, *http.Request), url string) *httptest.ResponseRecorder {
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
