@@ -4,41 +4,43 @@
     <p>{{ .RemainedResponsivePercent }}% of mosquitoes remained responsive.</p>
     <p>{{ .RemainedResponsiveHeadlessPercent }}% of mosquitoes remained responsive without their head.</p>
     <p>On average experimenters removed {{ .AverageExtremitiesRemoved }} extremities.</p>
-    <ul id="responsiveness-chart-data">
-        <li class="axis" style="height: 100%;">
-            <span>100%</span>
-            <span>90%</span>
-            <span>80%</span>
-            <span>70%</span>
-            <span>60%</span>
-            <span>50%</span>
-            <span>40%</span>
-            <span>30%</span>
-            <span>20%</span>
-            <span>10%</span>
-        </li>
-        <li style="height: 100%;"></li>
-        <li style="height: {{ .RemainedResponsive1MissingPercent }}%;"></li>
-        <li style="height: {{ .RemainedResponsive2MissingPercent }}%;"></li>
-        <li style="height: {{ .RemainedResponsive3MissingPercent }}%;"></li>
-        <li style="height: {{ .RemainedResponsive4MissingPercent }}%;"></li>
-        <li style="height: {{ .RemainedResponsive5MissingPercent }}%;"></li>
-        <li style="height: {{ .RemainedResponsive6MissingPercent }}%;"></li>
-        <li style="height: {{ .RemainedResponsive7MissingPercent }}%;"></li>
-        <li style="height: {{ .RemainedResponsive8MissingPercent }}%;"></li>
-    </ul>
-    <ul id="responsiveness-chart-labels">
-        <li></li>
-        <li>0 (assumed)</li>
-        <li>1</li>
-        <li>2</li>
-        <li>3</li>
-        <li>4</li>
-        <li>5</li>
-        <li>6</li>
-        <li>7</li>
-        <li>8</li>
-    </ul>
-    <p>Chart of responsiveness (%) to missing extremities. </br>(a leg or a wing counts as extremity)</p>
+    <div id="responsiveness-chart">
+        <ul id="responsiveness-chart-data">
+            <li class="axis" style="height: 100%;">
+                <span>100%</span>
+                <span>90%</span>
+                <span>80%</span>
+                <span>70%</span>
+                <span>60%</span>
+                <span>50%</span>
+                <span>40%</span>
+                <span>30%</span>
+                <span>20%</span>
+                <span>10%</span>
+            </li>
+            <li style="height: 100%;"></li>
+            <li style="height: {{ .RemainedResponsive1MissingPercent }}%;"></li>
+            <li style="height: {{ .RemainedResponsive2MissingPercent }}%;"></li>
+            <li style="height: {{ .RemainedResponsive3MissingPercent }}%;"></li>
+            <li style="height: {{ .RemainedResponsive4MissingPercent }}%;"></li>
+            <li style="height: {{ .RemainedResponsive5MissingPercent }}%;"></li>
+            <li style="height: {{ .RemainedResponsive6MissingPercent }}%;"></li>
+            <li style="height: {{ .RemainedResponsive7MissingPercent }}%;"></li>
+            <li style="height: {{ .RemainedResponsive8MissingPercent }}%;"></li>
+        </ul>
+        <ul id="responsiveness-chart-labels">
+            <li></li>
+            <li>0 (assumed)</li>
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+            <li>5</li>
+            <li>6</li>
+            <li>7</li>
+            <li>8</li>
+        </ul>
+    </div>
+    <p class="description">Chart of responsiveness (%) to missing extremities. </br>(a leg or a wing counts as extremity)</p>
 </section>
 {{ end }}

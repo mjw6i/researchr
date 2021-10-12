@@ -239,6 +239,11 @@ h1 {
     margin-top: 3rem;
     font-size: 2rem;
 }
+#results-section p.description {
+    margin-top: 2rem;
+    font-size: 1.8rem;
+    color: var(--contrast-3);
+}
 #assets-section {
     width: 70%;
     margin: 30vh auto 0 auto;
@@ -249,6 +254,9 @@ h1 {
     padding: 0.5rem;
     margin: 2rem 0;
     line-height: 1;
+}
+#responsiveness-chart {
+    margin-top: 3rem;
 }
 #responsiveness-chart-data, #responsiveness-chart-labels {
     display: flex;
@@ -263,6 +271,9 @@ h1 {
 #responsiveness-chart-data li, #responsiveness-chart-labels li {
     display: flex;
     width: 8%;
+}
+#responsiveness-chart-data li:first-of-type, #responsiveness-chart-labels li:first-of-type {
+    width: 3%;
 }
 #responsiveness-chart-data li {
     background-color: var(--contrast-2);
