@@ -111,6 +111,7 @@ func (env *Env) receiveHandler(w http.ResponseWriter, r *http.Request) {
 
 	_ = env.store.storeExperiment(experiment)
 	log.Print(experiment)
+	http.Redirect(w, r, "/results", http.StatusSeeOther)
 }
 
 func (env *Env) resultsHandler(w http.ResponseWriter, r *http.Request) {
