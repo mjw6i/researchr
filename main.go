@@ -44,7 +44,59 @@ func submitHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func receiveHandler(w http.ResponseWriter, r *http.Request) {
-	log.Print(r.FormValue("responsiveness"))
+	var responsive, head, leg1, leg2, leg3, leg4, leg5, leg6, wing1, wing2 bool
+	if r.FormValue("responsiveness") == "yes" {
+		responsive = true
+	} else {
+		responsive = false
+	}
+	if r.FormValue("head") == "on" {
+		head = false
+	} else {
+		head = true
+	}
+	if r.FormValue("leg1") == "on" {
+		leg1 = false
+	} else {
+		leg1 = true
+	}
+	if r.FormValue("leg2") == "on" {
+		leg2 = false
+	} else {
+		leg2 = true
+	}
+	if r.FormValue("leg3") == "on" {
+		leg3 = false
+	} else {
+		leg3 = true
+	}
+	if r.FormValue("leg4") == "on" {
+		leg4 = false
+	} else {
+		leg4 = true
+	}
+	if r.FormValue("leg5") == "on" {
+		leg5 = false
+	} else {
+		leg5 = true
+	}
+	if r.FormValue("leg6") == "on" {
+		leg6 = false
+	} else {
+		leg6 = true
+	}
+	if r.FormValue("wing1") == "on" {
+		wing1 = false
+	} else {
+		wing1 = true
+	}
+	if r.FormValue("wing2") == "on" {
+		wing2 = false
+	} else {
+		wing2 = true
+	}
+
+	log.Print(responsive, head, leg1, leg2, leg3, leg4, leg5, leg6, wing1, wing2)
 }
 
 func (env *Env) resultsHandler(w http.ResponseWriter, r *http.Request) {
