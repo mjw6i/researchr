@@ -19,6 +19,7 @@ func main() {
 
 	http.HandleFunc("/", baseHandler)
 	http.HandleFunc("/submit", submitHandler)
+	http.HandleFunc("/receive", receiveHandler)
 	http.HandleFunc("/results", env.resultsHandler)
 	http.HandleFunc("/assets", assetsHandler)
 	http.Handle("/static/", static)
@@ -40,6 +41,10 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 
 func submitHandler(w http.ResponseWriter, r *http.Request) {
 	render(w, submit, nil)
+}
+
+func receiveHandler(w http.ResponseWriter, r *http.Request) {
+	log.Print(r.FormValue("responsiveness"))
 }
 
 func (env *Env) resultsHandler(w http.ResponseWriter, r *http.Request) {
