@@ -18,6 +18,19 @@ type Result struct {
 	RemainedResponsive8MissingPercent string
 }
 
+type Experiment struct {
+	Responsive bool
+	Head       bool
+	Leg1       bool
+	Leg2       bool
+	Leg3       bool
+	Leg4       bool
+	Leg5       bool
+	Leg6       bool
+	Wing1      bool
+	Wing2      bool
+}
+
 type MockDataStore struct{}
 
 func (store MockDataStore) getResult() (Result, error) {
