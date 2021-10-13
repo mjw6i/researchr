@@ -45,6 +45,28 @@ func TestReceiveRoute(t *testing.T) {
 	assertHeader(t, recorder, "Location", "/results")
 }
 
+func TestReceiveAllChecked(t *testing.T) {
+	ds := SuccessStore{}
+	env := &Env{store: ds}
+
+	body := "leg1=on&leg2=on&leg3=on&leg4=on&leg5=on&leg6=on&wing1=on&wing2=on&head=on&responsiveness=yes"
+	recorder := makeFormRequest(t, env.receiveHandler, "/receive", body)
+
+	assertStatus(t, recorder, 303)
+	assertHeader(t, recorder, "Location", "/results")
+}
+
+func TestReceiveAllUnchecked(t *testing.T) {
+	ds := SuccessStore{}
+	env := &Env{store: ds}
+
+	body := ""
+	recorder := makeFormRequest(t, env.receiveHandler, "/receive", body)
+
+	assertStatus(t, recorder, 303)
+	assertHeader(t, recorder, "Location", "/results")
+}
+
 func TestResultsRoute(t *testing.T) {
 	ds := SuccessStore{}
 	env := &Env{store: ds}
@@ -74,6 +96,22 @@ func makeRequest(t *testing.T, h func(http.ResponseWriter, *http.Request), url s
 	if err != nil {
 		t.Fatal(err)
 	}
+
+	recorder := httptest.NewRecorder()
+	handler := http.HandlerFunc(h)
+
+	handler.ServeHTTP(recorder, req)
+
+	return recorder
+}
+
+func makeFormRequest(t *testing.T, h func(http.ResponseWriter, *http.Request), url string, body string) *httptest.ResponseRecorder {
+	req, err := http.NewRequest("POST", url, strings.NewReader(body))
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 
 	recorder := httptest.NewRecorder()
 	handler := http.HandlerFunc(h)
