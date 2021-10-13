@@ -45,7 +45,7 @@ func submitHandler(w http.ResponseWriter, r *http.Request) {
 
 func (env *Env) receiveHandler(w http.ResponseWriter, r *http.Request) {
 	var responsive, head, leg1, leg2, leg3, leg4, leg5, leg6, wing1, wing2 bool
-	if r.FormValue("responsiveness") == "yes" {
+	if r.FormValue("responsive") == "yes" {
 		responsive = true
 	} else {
 		responsive = false

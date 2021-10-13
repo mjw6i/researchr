@@ -49,7 +49,7 @@ func TestReceiveAllChecked(t *testing.T) {
 	ds := SuccessStore{}
 	env := &Env{store: ds}
 
-	body := "leg1=on&leg2=on&leg3=on&leg4=on&leg5=on&leg6=on&wing1=on&wing2=on&head=on&responsiveness=yes"
+	body := "leg1=on&leg2=on&leg3=on&leg4=on&leg5=on&leg6=on&wing1=on&wing2=on&head=on&responsive=yes"
 	recorder := makeFormRequest(t, env.receiveHandler, "/receive", body)
 
 	assertStatus(t, recorder, 303)
