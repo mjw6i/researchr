@@ -96,7 +96,20 @@ func receiveHandler(w http.ResponseWriter, r *http.Request) {
 		wing2 = true
 	}
 
-	log.Print(responsive, head, leg1, leg2, leg3, leg4, leg5, leg6, wing1, wing2)
+	experiment := Experiment{
+		Responsive: responsive,
+		Head:       head,
+		Leg1:       leg1,
+		Leg2:       leg2,
+		Leg3:       leg3,
+		Leg4:       leg4,
+		Leg5:       leg5,
+		Leg6:       leg6,
+		Wing1:      wing1,
+		Wing2:      wing2,
+	}
+
+	log.Print(experiment)
 }
 
 func (env *Env) resultsHandler(w http.ResponseWriter, r *http.Request) {
