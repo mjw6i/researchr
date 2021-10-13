@@ -96,7 +96,7 @@ func parseExperimentFormData(r *http.Request) Experiment {
 		wing2 = true
 	}
 
-	experiment := Experiment{
+	return Experiment{
 		Responsive: responsive,
 		Head:       head,
 		Leg1:       leg1,
@@ -108,8 +108,6 @@ func parseExperimentFormData(r *http.Request) Experiment {
 		Wing1:      wing1,
 		Wing2:      wing2,
 	}
-
-	return experiment
 }
 
 func (env *Env) receiveHandler(w http.ResponseWriter, r *http.Request) {
