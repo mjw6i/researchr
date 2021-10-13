@@ -43,7 +43,20 @@ func submitHandler(w http.ResponseWriter, r *http.Request) {
 	render(w, submit, nil)
 }
 
-func parseExperimentFormData(f ExperimentForm) Experiment {
+func parseExperimentFormData(r *http.Request) Experiment {
+	f := ExperimentForm{
+		Responsive: r.FormValue("responsive"),
+		Head:       r.FormValue("head"),
+		Leg1:       r.FormValue("leg1"),
+		Leg2:       r.FormValue("leg2"),
+		Leg3:       r.FormValue("leg3"),
+		Leg4:       r.FormValue("leg4"),
+		Leg5:       r.FormValue("leg5"),
+		Leg6:       r.FormValue("leg6"),
+		Wing1:      r.FormValue("wing1"),
+		Wing2:      r.FormValue("wing2"),
+	}
+
 	var responsive, head, leg1, leg2, leg3, leg4, leg5, leg6, wing1, wing2 bool
 	if f.Responsive == "yes" {
 		responsive = true
@@ -113,20 +126,7 @@ func parseExperimentFormData(f ExperimentForm) Experiment {
 }
 
 func (env *Env) receiveHandler(w http.ResponseWriter, r *http.Request) {
-	formData := ExperimentForm{
-		Responsive: r.FormValue("responsive"),
-		Head:       r.FormValue("head"),
-		Leg1:       r.FormValue("leg1"),
-		Leg2:       r.FormValue("leg2"),
-		Leg3:       r.FormValue("leg3"),
-		Leg4:       r.FormValue("leg4"),
-		Leg5:       r.FormValue("leg5"),
-		Leg6:       r.FormValue("leg6"),
-		Wing1:      r.FormValue("wing1"),
-		Wing2:      r.FormValue("wing2"),
-	}
-
-	experiment := parseExperimentFormData(formData)
+	experiment := parseExperimentFormData(r)
 
 	_ = env.store.storeExperiment(experiment)
 	log.Print(experiment)

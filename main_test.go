@@ -45,26 +45,62 @@ func TestReceiveRoute(t *testing.T) {
 	assertHeader(t, recorder, "Location", "/results")
 }
 
-func TestReceiveAllChecked(t *testing.T) {
-	ds := SuccessStore{}
-	env := &Env{store: ds}
-
+func TestParseExperimentFormAllChecked(t *testing.T) {
 	body := "leg1=on&leg2=on&leg3=on&leg4=on&leg5=on&leg6=on&wing1=on&wing2=on&head=on&responsive=yes"
-	recorder := makeFormRequest(t, env.receiveHandler, "/receive", body)
 
-	assertStatus(t, recorder, 303)
-	assertHeader(t, recorder, "Location", "/results")
+	req, err := http.NewRequest("POST", "", strings.NewReader(body))
+	if err != nil {
+		t.Fatal(err)
+	}
+	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
+
+	expected := Experiment{
+		Responsive: true,
+		Head:       false,
+		Leg1:       false,
+		Leg2:       false,
+		Leg3:       false,
+		Leg4:       false,
+		Leg5:       false,
+		Leg6:       false,
+		Wing1:      false,
+		Wing2:      false,
+	}
+
+	result := parseExperimentFormData(req)
+
+	if expected != result {
+		t.Error("Structs are not equal")
+	}
 }
 
-func TestReceiveAllUnchecked(t *testing.T) {
-	ds := SuccessStore{}
-	env := &Env{store: ds}
-
+func TestParseExperimentFormAllUnchecked(t *testing.T) {
 	body := ""
-	recorder := makeFormRequest(t, env.receiveHandler, "/receive", body)
 
-	assertStatus(t, recorder, 303)
-	assertHeader(t, recorder, "Location", "/results")
+	req, err := http.NewRequest("POST", "", strings.NewReader(body))
+	if err != nil {
+		t.Fatal(err)
+	}
+	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
+
+	expected := Experiment{
+		Responsive: false,
+		Head:       true,
+		Leg1:       true,
+		Leg2:       true,
+		Leg3:       true,
+		Leg4:       true,
+		Leg5:       true,
+		Leg6:       true,
+		Wing1:      true,
+		Wing2:      true,
+	}
+
+	result := parseExperimentFormData(req)
+
+	if expected != result {
+		t.Error("Structs are not equal")
+	}
 }
 
 func TestResultsRoute(t *testing.T) {
