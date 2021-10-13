@@ -35,6 +35,16 @@ func TestSubmitRoute(t *testing.T) {
 	assertBodyStartsWith(t, recorder, "<!DOCTYPE html>")
 }
 
+func TestReceiveRoute(t *testing.T) {
+	ds := SuccessStore{}
+	env := &Env{store: ds}
+
+	recorder := makeRequest(t, env.receiveHandler, "/receive")
+
+	assertStatus(t, recorder, 303)
+	assertHeader(t, recorder, "Location", "/results")
+}
+
 func TestResultsRoute(t *testing.T) {
 	ds := SuccessStore{}
 	env := &Env{store: ds}
@@ -89,5 +99,11 @@ func assertBodyStartsWith(t *testing.T, r *httptest.ResponseRecorder, expected s
 func assertStatus(t *testing.T, r *httptest.ResponseRecorder, expected int) {
 	if r.Code != expected {
 		t.Errorf("Expected status: '%v' got '%v'", expected, r.Code)
+	}
+}
+
+func assertHeader(t *testing.T, r *httptest.ResponseRecorder, key string, value string) {
+	if r.Header().Get(key) != value {
+		t.Errorf("Expected header: '%v' got '%v'", value, r.Header().Get(key))
 	}
 }
