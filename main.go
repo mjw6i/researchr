@@ -43,54 +43,54 @@ func submitHandler(w http.ResponseWriter, r *http.Request) {
 	render(w, submit, nil)
 }
 
-func (env *Env) receiveHandler(w http.ResponseWriter, r *http.Request) {
+func parseExperimentFormData(f ExperimentForm) Experiment {
 	var responsive, head, leg1, leg2, leg3, leg4, leg5, leg6, wing1, wing2 bool
-	if r.FormValue("responsive") == "yes" {
+	if f.Responsive == "yes" {
 		responsive = true
 	} else {
 		responsive = false
 	}
-	if r.FormValue("head") == "on" {
+	if f.Head == "on" {
 		head = false
 	} else {
 		head = true
 	}
-	if r.FormValue("leg1") == "on" {
+	if f.Leg1 == "on" {
 		leg1 = false
 	} else {
 		leg1 = true
 	}
-	if r.FormValue("leg2") == "on" {
+	if f.Leg2 == "on" {
 		leg2 = false
 	} else {
 		leg2 = true
 	}
-	if r.FormValue("leg3") == "on" {
+	if f.Leg3 == "on" {
 		leg3 = false
 	} else {
 		leg3 = true
 	}
-	if r.FormValue("leg4") == "on" {
+	if f.Leg4 == "on" {
 		leg4 = false
 	} else {
 		leg4 = true
 	}
-	if r.FormValue("leg5") == "on" {
+	if f.Leg5 == "on" {
 		leg5 = false
 	} else {
 		leg5 = true
 	}
-	if r.FormValue("leg6") == "on" {
+	if f.Leg6 == "on" {
 		leg6 = false
 	} else {
 		leg6 = true
 	}
-	if r.FormValue("wing1") == "on" {
+	if f.Wing1 == "on" {
 		wing1 = false
 	} else {
 		wing1 = true
 	}
-	if r.FormValue("wing2") == "on" {
+	if f.Wing2 == "on" {
 		wing2 = false
 	} else {
 		wing2 = true
@@ -108,6 +108,25 @@ func (env *Env) receiveHandler(w http.ResponseWriter, r *http.Request) {
 		Wing1:      wing1,
 		Wing2:      wing2,
 	}
+
+	return experiment
+}
+
+func (env *Env) receiveHandler(w http.ResponseWriter, r *http.Request) {
+	formData := ExperimentForm{
+		Responsive: r.FormValue("responsive"),
+		Head:       r.FormValue("head"),
+		Leg1:       r.FormValue("leg1"),
+		Leg2:       r.FormValue("leg2"),
+		Leg3:       r.FormValue("leg3"),
+		Leg4:       r.FormValue("leg4"),
+		Leg5:       r.FormValue("leg5"),
+		Leg6:       r.FormValue("leg6"),
+		Wing1:      r.FormValue("wing1"),
+		Wing2:      r.FormValue("wing2"),
+	}
+
+	experiment := parseExperimentFormData(formData)
 
 	_ = env.store.storeExperiment(experiment)
 	log.Print(experiment)

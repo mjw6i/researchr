@@ -32,6 +32,19 @@ type Experiment struct {
 	Wing2      bool
 }
 
+type ExperimentForm struct {
+	Responsive string
+	Head       string
+	Leg1       string
+	Leg2       string
+	Leg3       string
+	Leg4       string
+	Leg5       string
+	Leg6       string
+	Wing1      string
+	Wing2      string
+}
+
 type SuccessStore struct{}
 
 func (store SuccessStore) getResult() (Result, error) {
