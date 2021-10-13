@@ -36,7 +36,7 @@ func TestSubmitRoute(t *testing.T) {
 }
 
 func TestResultsRoute(t *testing.T) {
-	ds := MockDataStore{}
+	ds := SuccessStore{}
 	env := &Env{store: ds}
 
 	recorder := makeRequest(t, env.resultsHandler, "/results")

@@ -2,6 +2,7 @@ package main
 
 type DataStore interface {
 	getResult() (Result, error)
+	storeExperiment(Experiment) error
 }
 
 type Result struct {
@@ -31,9 +32,9 @@ type Experiment struct {
 	Wing2      bool
 }
 
-type MockDataStore struct{}
+type SuccessStore struct{}
 
-func (store MockDataStore) getResult() (Result, error) {
+func (store SuccessStore) getResult() (Result, error) {
 	result := Result{
 		RemainedResponsivePercent:         "13.59",
 		RemainedResponsiveHeadlessPercent: "6.31",
@@ -49,4 +50,8 @@ func (store MockDataStore) getResult() (Result, error) {
 	}
 
 	return result, nil
+}
+
+func (store SuccessStore) storeExperiment(e Experiment) error {
+	return nil
 }

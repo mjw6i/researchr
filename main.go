@@ -14,12 +14,12 @@ var assets = loadNestedTemplates("template/assets.htm")
 var static = http.StripPrefix("/static", http.FileServer(http.Dir("./static")))
 
 func main() {
-	ds := MockDataStore{}
+	ds := SuccessStore{}
 	env := &Env{store: ds}
 
 	http.HandleFunc("/", baseHandler)
 	http.HandleFunc("/submit", submitHandler)
-	http.HandleFunc("/receive", receiveHandler)
+	http.HandleFunc("/receive", env.receiveHandler)
 	http.HandleFunc("/results", env.resultsHandler)
 	http.HandleFunc("/assets", assetsHandler)
 	http.Handle("/static/", static)
@@ -43,7 +43,7 @@ func submitHandler(w http.ResponseWriter, r *http.Request) {
 	render(w, submit, nil)
 }
 
-func receiveHandler(w http.ResponseWriter, r *http.Request) {
+func (env *Env) receiveHandler(w http.ResponseWriter, r *http.Request) {
 	var responsive, head, leg1, leg2, leg3, leg4, leg5, leg6, wing1, wing2 bool
 	if r.FormValue("responsiveness") == "yes" {
 		responsive = true
@@ -109,6 +109,7 @@ func receiveHandler(w http.ResponseWriter, r *http.Request) {
 		Wing2:      wing2,
 	}
 
+	_ = env.store.storeExperiment(experiment)
 	log.Print(experiment)
 }
 
