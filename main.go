@@ -124,7 +124,9 @@ func (env *Env) receiveHandler(w http.ResponseWriter, r *http.Request) {
 	err = env.store.storeExperiment(experiment)
 
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
 
 	http.Redirect(w, r, "/results", http.StatusSeeOther)
