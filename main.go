@@ -117,7 +117,8 @@ func (env *Env) receiveHandler(w http.ResponseWriter, r *http.Request) {
 	experiment, err := parseExperimentFormData(r)
 
 	if err != nil {
-		log.Fatal(err)
+		w.WriteHeader(http.StatusBadRequest)
+		return
 	}
 
 	err = env.store.storeExperiment(experiment)
