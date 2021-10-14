@@ -114,15 +114,27 @@ func parseExperimentFormData(r *http.Request) (Experiment, error) {
 }
 
 func (env *Env) receiveHandler(w http.ResponseWriter, r *http.Request) {
-	experiment, _ := parseExperimentFormData(r)
+	experiment, err := parseExperimentFormData(r)
 
-	_ = env.store.storeExperiment(experiment)
-	log.Print(experiment)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = env.store.storeExperiment(experiment)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	http.Redirect(w, r, "/results", http.StatusSeeOther)
 }
 
 func (env *Env) resultsHandler(w http.ResponseWriter, r *http.Request) {
-	res, _ := env.store.getResult()
+	res, err := env.store.getResult()
+
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	render(w, results, res)
 }
