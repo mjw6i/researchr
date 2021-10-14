@@ -35,11 +35,21 @@ func TestSubmitRoute(t *testing.T) {
 	assertBodyStartsWith(t, recorder, "<!DOCTYPE html>")
 }
 
-func TestReceiveRoute(t *testing.T) {
+func TestReceiveError(t *testing.T) {
 	ds := SuccessStore{}
 	env := &Env{store: ds}
 
 	recorder := makeRequest(t, env.receiveHandler, "/receive")
+
+	assertStatus(t, recorder, 400)
+	assertBody(t, recorder, "")
+}
+
+func TestReceiveRedirect(t *testing.T) {
+	ds := SuccessStore{}
+	env := &Env{store: ds}
+
+	recorder := makeFormRequest(t, env.receiveHandler, "/receive", "responsive=yes")
 
 	assertStatus(t, recorder, 303)
 	assertHeader(t, recorder, "Location", "/results")
