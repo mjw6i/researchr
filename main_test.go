@@ -35,16 +35,6 @@ func TestSubmitRoute(t *testing.T) {
 	assertBodyStartsWith(t, recorder, "<!DOCTYPE html>")
 }
 
-func TestReceiveError(t *testing.T) {
-	ds := SuccessStore{}
-	env := &Env{store: ds}
-
-	recorder := makeRequest(t, env.receiveHandler, "/receive")
-
-	assertStatus(t, recorder, 400)
-	assertBody(t, recorder, "")
-}
-
 func TestReceiveRedirect(t *testing.T) {
 	ds := SuccessStore{}
 	env := &Env{store: ds}
@@ -53,6 +43,16 @@ func TestReceiveRedirect(t *testing.T) {
 
 	assertStatus(t, recorder, 303)
 	assertHeader(t, recorder, "Location", "/results")
+}
+
+func TestReceiveError(t *testing.T) {
+	ds := SuccessStore{}
+	env := &Env{store: ds}
+
+	recorder := makeRequest(t, env.receiveHandler, "/receive")
+
+	assertStatus(t, recorder, 400)
+	assertBody(t, recorder, "")
 }
 
 func TestParseExperimentFormAllChecked(t *testing.T) {
