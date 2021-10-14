@@ -121,6 +121,16 @@ func TestParseExperimentFormAllUnchecked(t *testing.T) {
 	}
 }
 
+func TestReceiveStore(t *testing.T) {
+	ds := FailureStore{}
+	env := &Env{store: ds}
+
+	recorder := makeFormRequest(t, env.receiveHandler, "/receive", "responsive=yes")
+
+	assertStatus(t, recorder, 500)
+	assertBody(t, recorder, "")
+}
+
 func TestResultsRoute(t *testing.T) {
 	ds := SuccessStore{}
 	env := &Env{store: ds}
