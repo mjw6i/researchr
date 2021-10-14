@@ -67,10 +67,14 @@ func TestParseExperimentFormAllChecked(t *testing.T) {
 		Wing2:      false,
 	}
 
-	result := parseExperimentFormData(req)
+	result, err := parseExperimentFormData(req)
+
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	if expected != result {
-		t.Error("Structs are not equal")
+		t.Fatal("Structs are not equal")
 	}
 }
 
@@ -96,10 +100,14 @@ func TestParseExperimentFormAllUnchecked(t *testing.T) {
 		Wing2:      true,
 	}
 
-	result := parseExperimentFormData(req)
+	result, err := parseExperimentFormData(req)
+
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	if expected != result {
-		t.Error("Structs are not equal")
+		t.Fatal("Structs are not equal")
 	}
 }
 
@@ -159,25 +167,25 @@ func makeFormRequest(t *testing.T, h func(http.ResponseWriter, *http.Request), u
 
 func assertBody(t *testing.T, r *httptest.ResponseRecorder, expected string) {
 	if r.Body.String() != expected {
-		t.Errorf("Expected response: '%v' got '%v'", expected, r.Body.String())
+		t.Fatalf("Expected response: '%v' got '%v'", expected, r.Body.String())
 	}
 }
 
 func assertBodyStartsWith(t *testing.T, r *httptest.ResponseRecorder, expected string) {
 	if !strings.HasPrefix(r.Body.String(), expected) {
 		comp := r.Body.String() + strings.Repeat("#", len(expected))
-		t.Errorf("Expected prefix: '%v' got '%v'", expected, comp[0:len(expected)])
+		t.Fatalf("Expected prefix: '%v' got '%v'", expected, comp[0:len(expected)])
 	}
 }
 
 func assertStatus(t *testing.T, r *httptest.ResponseRecorder, expected int) {
 	if r.Code != expected {
-		t.Errorf("Expected status: '%v' got '%v'", expected, r.Code)
+		t.Fatalf("Expected status: '%v' got '%v'", expected, r.Code)
 	}
 }
 
 func assertHeader(t *testing.T, r *httptest.ResponseRecorder, key string, value string) {
 	if r.Header().Get(key) != value {
-		t.Errorf("Expected header: '%v' got '%v'", value, r.Header().Get(key))
+		t.Fatalf("Expected header: '%v' got '%v'", value, r.Header().Get(key))
 	}
 }

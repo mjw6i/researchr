@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"html/template"
 	"log"
 	"net/http"
@@ -43,12 +44,14 @@ func submitHandler(w http.ResponseWriter, r *http.Request) {
 	render(w, submit, nil)
 }
 
-func parseExperimentFormData(r *http.Request) Experiment {
+func parseExperimentFormData(r *http.Request) (Experiment, error) {
 	var responsive, head, leg1, leg2, leg3, leg4, leg5, leg6, wing1, wing2 bool
 	if r.FormValue("responsive") == "yes" {
 		responsive = true
-	} else {
+	} else if r.FormValue("responsive") == "no" {
 		responsive = false
+	} else {
+		return Experiment{}, errors.New("Incorrect responsive value")
 	}
 	if r.FormValue("head") == "on" {
 		head = false
@@ -107,11 +110,11 @@ func parseExperimentFormData(r *http.Request) Experiment {
 		Leg6:       leg6,
 		Wing1:      wing1,
 		Wing2:      wing2,
-	}
+	}, nil
 }
 
 func (env *Env) receiveHandler(w http.ResponseWriter, r *http.Request) {
-	experiment := parseExperimentFormData(r)
+	experiment, _ := parseExperimentFormData(r)
 
 	_ = env.store.storeExperiment(experiment)
 	log.Print(experiment)
