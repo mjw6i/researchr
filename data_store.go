@@ -1,5 +1,7 @@
 package main
 
+import "errors"
+
 type DataStore interface {
 	getResult() (Result, error)
 	storeExperiment(Experiment) error
@@ -54,4 +56,14 @@ func (store SuccessStore) getResult() (Result, error) {
 
 func (store SuccessStore) storeExperiment(e Experiment) error {
 	return nil
+}
+
+type FailureStore struct{}
+
+func (store FailureStore) getResult() (Result, error) {
+	return Result{}, errors.New("Store error")
+}
+
+func (store FailureStore) storeExperiment(e Experiment) error {
+	return errors.New("Store error")
 }
