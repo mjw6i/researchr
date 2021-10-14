@@ -79,7 +79,7 @@ func TestParseExperimentFormAllChecked(t *testing.T) {
 }
 
 func TestParseExperimentFormAllUnchecked(t *testing.T) {
-	body := ""
+	body := "responsive=no"
 
 	req, err := http.NewRequest("POST", "", strings.NewReader(body))
 	if err != nil {
