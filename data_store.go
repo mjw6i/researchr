@@ -38,14 +38,14 @@ type SuccessStore struct{}
 
 func (store SuccessStore) getResult() (Result, error) {
 	result := Result{
-		RemainedResponsivePercent:         "13.59",
-		RemainedResponsiveHeadlessPercent: "6.31",
+		RemainedResponsivePercent:         "57.03",
+		RemainedResponsiveHeadlessPercent: "1.63",
 		AverageExtremitiesRemoved:         "3.72",
 		RemainedResponsive1MissingPercent: "95.88",
-		RemainedResponsive2MissingPercent: "85.72",
+		RemainedResponsive2MissingPercent: "87.80",
 		RemainedResponsive3MissingPercent: "75.61",
 		RemainedResponsive4MissingPercent: "65.91",
-		RemainedResponsive5MissingPercent: "35.82",
+		RemainedResponsive5MissingPercent: "34.82",
 		RemainedResponsive6MissingPercent: "24.27",
 		RemainedResponsive7MissingPercent: "11.56",
 		RemainedResponsive8MissingPercent: "0.03",
