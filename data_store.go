@@ -1,6 +1,13 @@
 package main
 
-import "errors"
+import (
+	"database/sql"
+	"errors"
+	"log"
+	"os"
+
+	_ "github.com/jackc/pgx/v4/stdlib"
+)
 
 type DataStore interface {
 	getResult() (Result, error)
@@ -66,4 +73,28 @@ func (store FailureStore) getResult() (Result, error) {
 
 func (store FailureStore) storeExperiment(e Experiment) error {
 	return errors.New("Store error")
+}
+
+type DatabaseStore struct{}
+
+func (store DatabaseStore) getResult() (Result, error) {
+	return Result{}, errors.New("Store error")
+}
+
+func (store DatabaseStore) storeExperiment(e Experiment) error {
+	db, err := sql.Open("pgx", os.Getenv("DATABASE_URL"))
+	if err != nil {
+		log.Println(err)
+		return errors.New("Store error")
+	}
+	defer db.Close()
+
+	_, err = db.Exec("INSERT INTO experiments (responsive, head, leg1, leg2, leg3, leg4, leg5, leg6, wing1, wing2) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)", e.Responsive, e.Head, e.Leg1, e.Leg2, e.Leg3, e.Leg4, e.Leg5, e.Leg6, e.Wing1, e.Wing2)
+
+	if err != nil {
+		log.Println(err)
+		return errors.New("Store error")
+	}
+
+	return nil
 }
