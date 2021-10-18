@@ -1,0 +1,13 @@
+CREATE TABLE experiments (
+    id SERIAL PRIMARY KEY,
+    responsive BOOLEAN NOT NULL,
+    head BOOLEAN NOT NULL,
+    leg1 BOOLEAN NOT NULL,
+    leg2 BOOLEAN NOT NULL,
+    leg3 BOOLEAN NOT NULL,
+    leg4 BOOLEAN NOT NULL,
+    leg5 BOOLEAN NOT NULL,
+    leg6 BOOLEAN NOT NULL,
+    wing1 BOOLEAN NOT NULL,
+    wing2 BOOLEAN NOT NULL
+);
