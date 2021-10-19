@@ -1,8 +1,20 @@
 package main
 
 import (
+	"fmt"
 	"testing"
 )
+
+func TestResult(t *testing.T) {
+	store := DatabaseStore{}
+	res, err := store.getResult()
+
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	fmt.Println(res)
+}
 
 func TestStore(t *testing.T) {
 	store := DatabaseStore{}

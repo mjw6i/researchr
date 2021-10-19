@@ -78,6 +78,13 @@ func (store FailureStore) storeExperiment(e Experiment) error {
 type DatabaseStore struct{}
 
 func (store DatabaseStore) getResult() (Result, error) {
+	db, err := sql.Open("pgx", os.Getenv("DATABASE_URL"))
+	if err != nil {
+		log.Println(err)
+		return Result{}, errors.New("DB error")
+	}
+	defer db.Close()
+
 	return Result{}, errors.New("Store error")
 }
 
@@ -85,7 +92,7 @@ func (store DatabaseStore) storeExperiment(e Experiment) error {
 	db, err := sql.Open("pgx", os.Getenv("DATABASE_URL"))
 	if err != nil {
 		log.Println(err)
-		return errors.New("Store error")
+		return errors.New("DB error")
 	}
 	defer db.Close()
 
