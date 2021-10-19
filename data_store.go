@@ -140,7 +140,12 @@ func (store DatabaseStore) storeExperiment(e Experiment) error {
 	}
 	defer db.Close()
 
-	_, err = db.Exec("INSERT INTO experiments (responsive, head, leg1, leg2, leg3, leg4, leg5, leg6, wing1, wing2) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)", e.Responsive, e.Head, e.Leg1, e.Leg2, e.Leg3, e.Leg4, e.Leg5, e.Leg6, e.Wing1, e.Wing2)
+	_, err = db.Exec(`
+	INSERT INTO experiments (
+		responsive, head, leg1, leg2, leg3, leg4, leg5, leg6, wing1, wing2
+	) VALUES (
+		$1, $2, $3, $4, $5, $6, $7, $8, $9, $10
+	)`, e.Responsive, e.Head, e.Leg1, e.Leg2, e.Leg3, e.Leg4, e.Leg5, e.Leg6, e.Wing1, e.Wing2)
 
 	if err != nil {
 		log.Println(err)
