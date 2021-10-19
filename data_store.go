@@ -85,6 +85,37 @@ func (store DatabaseStore) getResult() (Result, error) {
 	}
 	defer db.Close()
 
+	var count, responsive, extremity int
+
+	row := db.QueryRow(`
+	SELECT
+		COUNT(*),
+		COALESCE(SUM(responsive::int), 0) AS responsive,
+		COALESCE(SUM(leg1::int + leg2::int + leg3::int + leg4::int + leg5::int + leg6::int + wing1::int + wing2::int), 0) AS extremity
+	FROM experiments`)
+
+	err = row.Scan(&count, &responsive, &extremity)
+	if err != nil {
+		log.Println(err)
+		return Result{}, errors.New("DB error")
+	}
+
+	log.Println(count, responsive, extremity)
+
+	return Result{
+		RemainedResponsivePercent:         "57.03",
+		RemainedResponsiveHeadlessPercent: "1.63",
+		AverageExtremitiesRemoved:         "3.72",
+		RemainedResponsive1MissingPercent: "95.88",
+		RemainedResponsive2MissingPercent: "87.80",
+		RemainedResponsive3MissingPercent: "75.61",
+		RemainedResponsive4MissingPercent: "65.91",
+		RemainedResponsive5MissingPercent: "34.82",
+		RemainedResponsive6MissingPercent: "24.27",
+		RemainedResponsive7MissingPercent: "11.56",
+		RemainedResponsive8MissingPercent: "0.03",
+	}, nil
+
 	return Result{}, errors.New("Store error")
 }
 
