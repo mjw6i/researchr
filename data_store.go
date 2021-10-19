@@ -110,7 +110,7 @@ func (store DatabaseStore) getResult() (Result, error) {
 		averageExtremitiesRemoved = 0
 	} else {
 		remainedResponsivePercent = float64(responsive) / float64(count)
-		averageExtremitiesRemoved = float64(extremity) / float64(count)
+		averageExtremitiesRemoved = float64(8*count-extremity) / float64(count)
 	}
 
 	log.Println(remainedResponsivePercent, averageExtremitiesRemoved)
