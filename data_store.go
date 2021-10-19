@@ -103,20 +103,22 @@ func (store DatabaseStore) getResult() (Result, error) {
 
 	log.Println(count, responsive, extremity)
 
-	var remainedResponsivePercent float64
+	var remainedResponsivePercent, averageExtremitiesRemoved float64
 
 	if count == 0 {
 		remainedResponsivePercent = 0
+		averageExtremitiesRemoved = 0
 	} else {
 		remainedResponsivePercent = float64(responsive) / float64(count)
+		averageExtremitiesRemoved = float64(extremity) / float64(count)
 	}
 
-	log.Println(remainedResponsivePercent)
+	log.Println(remainedResponsivePercent, averageExtremitiesRemoved)
 
 	return Result{
 		RemainedResponsivePercent:         fmt.Sprintf("%.2f", remainedResponsivePercent),
 		RemainedResponsiveHeadlessPercent: "1.63",
-		AverageExtremitiesRemoved:         "3.72",
+		AverageExtremitiesRemoved:         fmt.Sprintf("%.2f", averageExtremitiesRemoved),
 		RemainedResponsive1MissingPercent: "95.88",
 		RemainedResponsive2MissingPercent: "87.80",
 		RemainedResponsive3MissingPercent: "75.61",
