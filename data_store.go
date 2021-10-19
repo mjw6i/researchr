@@ -111,20 +111,50 @@ func (store DatabaseStore) getResult() (Result, error) {
 		averageExtremitiesRemoved = float64(8*count-extremity) / float64(count)
 	}
 
-	log.Println(remainedResponsivePercent, averageExtremitiesRemoved)
+	remainedResponsiveMissingPercent := make(map[int]float64)
+
+	for missing := 1; missing <= 8; missing++ {
+		remaining := 8 - missing
+		row = db.QueryRow(`
+			SELECT COUNT(*)
+			FROM (
+				SELECT id
+				FROM experiments
+				WHERE responsive = TRUE
+				GROUP BY id
+				HAVING SUM(leg1::int + leg2::int + leg3::int + leg4::int + leg5::int + leg6::int + wing1::int + wing2::int) = $1
+			) as rows
+		`, remaining)
+
+		var temp int
+
+		err = row.Scan(&temp)
+		if err != nil {
+			log.Println(err)
+			return Result{}, errors.New("DB error")
+		}
+
+		if responsive == 0 {
+			remainedResponsiveMissingPercent[missing] = 0
+		} else {
+			remainedResponsiveMissingPercent[missing] = float64(temp) / float64(responsive)
+		}
+	}
+
+	log.Println(remainedResponsiveMissingPercent)
 
 	return Result{
 		RemainedResponsivePercent:         fmt.Sprintf("%.2f", remainedResponsivePercent),
 		RemainedResponsiveHeadlessPercent: "1.63",
 		AverageExtremitiesRemoved:         fmt.Sprintf("%.2f", averageExtremitiesRemoved),
-		RemainedResponsive1MissingPercent: "95.88",
-		RemainedResponsive2MissingPercent: "87.80",
-		RemainedResponsive3MissingPercent: "75.61",
-		RemainedResponsive4MissingPercent: "65.91",
-		RemainedResponsive5MissingPercent: "34.82",
-		RemainedResponsive6MissingPercent: "24.27",
-		RemainedResponsive7MissingPercent: "11.56",
-		RemainedResponsive8MissingPercent: "0.03",
+		RemainedResponsive1MissingPercent: fmt.Sprintf("%.2f", remainedResponsiveMissingPercent[1]),
+		RemainedResponsive2MissingPercent: fmt.Sprintf("%.2f", remainedResponsiveMissingPercent[2]),
+		RemainedResponsive3MissingPercent: fmt.Sprintf("%.2f", remainedResponsiveMissingPercent[3]),
+		RemainedResponsive4MissingPercent: fmt.Sprintf("%.2f", remainedResponsiveMissingPercent[4]),
+		RemainedResponsive5MissingPercent: fmt.Sprintf("%.2f", remainedResponsiveMissingPercent[5]),
+		RemainedResponsive6MissingPercent: fmt.Sprintf("%.2f", remainedResponsiveMissingPercent[6]),
+		RemainedResponsive7MissingPercent: fmt.Sprintf("%.2f", remainedResponsiveMissingPercent[7]),
+		RemainedResponsive8MissingPercent: fmt.Sprintf("%.2f", remainedResponsiveMissingPercent[8]),
 	}, nil
 
 	return Result{}, errors.New("Store error")
