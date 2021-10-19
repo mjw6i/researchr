@@ -101,8 +101,6 @@ func (store DatabaseStore) getResult() (Result, error) {
 		return Result{}, errors.New("DB error")
 	}
 
-	log.Println(count, responsive, extremity)
-
 	var remainedResponsivePercent, averageExtremitiesRemoved float64
 
 	if count == 0 {
