@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"errors"
+	"fmt"
 	"log"
 	"os"
 
@@ -102,8 +103,18 @@ func (store DatabaseStore) getResult() (Result, error) {
 
 	log.Println(count, responsive, extremity)
 
+	var remainedResponsivePercent float64
+
+	if count == 0 {
+		remainedResponsivePercent = 0
+	} else {
+		remainedResponsivePercent = float64(responsive) / float64(count)
+	}
+
+	log.Println(remainedResponsivePercent)
+
 	return Result{
-		RemainedResponsivePercent:         "57.03",
+		RemainedResponsivePercent:         fmt.Sprintf("%.2f", remainedResponsivePercent),
 		RemainedResponsiveHeadlessPercent: "1.63",
 		AverageExtremitiesRemoved:         "3.72",
 		RemainedResponsive1MissingPercent: "95.88",
