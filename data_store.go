@@ -107,19 +107,21 @@ func (store DatabaseStore) getResult() (Result, error) {
 		remainedResponsivePercent = 0
 		averageExtremitiesRemoved = 0
 	} else {
-		remainedResponsivePercent = float64(responsive) / float64(count)
+		remainedResponsivePercent = 100 * float64(responsive) / float64(count)
 		averageExtremitiesRemoved = float64(8*count-extremity) / float64(count)
 	}
 
-	var headless int
+	var headless, headlessResponsive int
 
 	row = db.QueryRow(`
-	SELECT COUNT(*)
+	SELECT
+		COUNT(*),
+		COALESCE(SUM(responsive::int), 0) AS responsive
 	FROM experiments
-	WHERE responsive = TRUE AND head = FALSE
+	WHERE head = FALSE
 	`)
 
-	err = row.Scan(&headless)
+	err = row.Scan(&headless, &headlessResponsive)
 	if err != nil {
 		log.Println(err)
 		return Result{}, errors.New("DB error")
@@ -127,10 +129,10 @@ func (store DatabaseStore) getResult() (Result, error) {
 
 	var remainedResponsiveHeadlessPercent float64
 
-	if count == 0 {
+	if headless == 0 {
 		remainedResponsiveHeadlessPercent = 0
 	} else {
-		remainedResponsiveHeadlessPercent = float64(headless) / float64(count)
+		remainedResponsiveHeadlessPercent = 100 * float64(headlessResponsive) / float64(headless)
 	}
 
 	remainedResponsiveMissingPercent := make(map[int]float64)
@@ -159,7 +161,7 @@ func (store DatabaseStore) getResult() (Result, error) {
 		if count == 0 {
 			remainedResponsiveMissingPercent[missing] = 0
 		} else {
-			remainedResponsiveMissingPercent[missing] = float64(temp) / float64(count)
+			remainedResponsiveMissingPercent[missing] = 100 * float64(temp) / float64(count)
 		}
 	}
 
