@@ -140,28 +140,27 @@ func (store DatabaseStore) getResult() (Result, error) {
 	for missing := 1; missing <= 8; missing++ {
 		remaining := 8 - missing
 		row = db.QueryRow(`
-			SELECT COUNT(*)
+			SELECT COUNT(*), COALESCE(SUM(responsive::int), 0)
 			FROM (
-				SELECT id
+				SELECT responsive
 				FROM experiments
-				WHERE responsive = TRUE
 				GROUP BY id
 				HAVING SUM(leg1::int + leg2::int + leg3::int + leg4::int + leg5::int + leg6::int + wing1::int + wing2::int) = $1
 			) as rows
 		`, remaining)
 
-		var temp int
+		var responsive, total int
 
-		err = row.Scan(&temp)
+		err = row.Scan(&total, &responsive)
 		if err != nil {
 			log.Println(err)
 			return Result{}, errors.New("DB error")
 		}
 
-		if count == 0 {
+		if total == 0 {
 			remainedResponsiveMissingPercent[missing] = 0
 		} else {
-			remainedResponsiveMissingPercent[missing] = 100 * float64(temp) / float64(count)
+			remainedResponsiveMissingPercent[missing] = 100 * float64(responsive) / float64(total)
 		}
 	}
 
