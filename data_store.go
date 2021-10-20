@@ -134,10 +134,10 @@ func (store DatabaseStore) getResult() (Result, error) {
 			return Result{}, errors.New("DB error")
 		}
 
-		if responsive == 0 {
+		if count == 0 {
 			remainedResponsiveMissingPercent[missing] = 0
 		} else {
-			remainedResponsiveMissingPercent[missing] = float64(temp) / float64(responsive)
+			remainedResponsiveMissingPercent[missing] = float64(temp) / float64(count)
 		}
 	}
 
