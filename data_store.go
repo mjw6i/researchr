@@ -140,7 +140,9 @@ func (store DatabaseStore) getResult() (Result, error) {
 	for missing := 1; missing <= 8; missing++ {
 		remaining := 8 - missing
 		row = db.QueryRow(`
-			SELECT COUNT(*), COALESCE(SUM(responsive::int), 0)
+			SELECT
+				COUNT(*),
+				COALESCE(SUM(responsive::int), 0)
 			FROM (
 				SELECT responsive
 				FROM experiments
