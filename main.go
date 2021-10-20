@@ -14,7 +14,7 @@ var assets = loadNestedTemplates("template/assets.htm")
 var static = http.StripPrefix("/static", http.FileServer(http.Dir("./static")))
 
 func main() {
-	ds := SuccessStore{}
+	ds := DatabaseStore{}
 	env := &Env{store: ds}
 
 	http.HandleFunc("/", baseHandler)
