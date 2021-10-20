@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"log"
-	"os"
 
 	_ "github.com/jackc/pgx/v4/stdlib"
 )
@@ -78,26 +77,21 @@ func (store FailureStore) storeExperiment(e Experiment) error {
 	return errors.New("Store error")
 }
 
-type DatabaseStore struct{}
+type DatabaseStore struct {
+	db *sql.DB
+}
 
-func (store DatabaseStore) getResult() (Result, error) {
-	db, err := sql.Open("pgx", os.Getenv("DATABASE_URL"))
-	if err != nil {
-		log.Println(err)
-		return Result{}, errors.New("DB error")
-	}
-	defer db.Close()
-
+func (store *DatabaseStore) getResult() (Result, error) {
 	var count, responsive, extremity int
 
-	row := db.QueryRow(`
+	row := store.db.QueryRow(`
 	SELECT
 		COUNT(*),
 		COALESCE(SUM(responsive::int), 0) AS responsive,
 		COALESCE(SUM(leg1::int + leg2::int + leg3::int + leg4::int + leg5::int + leg6::int + wing1::int + wing2::int), 0) AS extremity
 	FROM experiments`)
 
-	err = row.Scan(&count, &responsive, &extremity)
+	err := row.Scan(&count, &responsive, &extremity)
 	if err != nil {
 		log.Println(err)
 		return Result{}, errors.New("DB error")
@@ -115,7 +109,7 @@ func (store DatabaseStore) getResult() (Result, error) {
 
 	var headless, headlessResponsive int
 
-	row = db.QueryRow(`
+	row = store.db.QueryRow(`
 	SELECT
 		COUNT(*),
 		COALESCE(SUM(responsive::int), 0) AS responsive
@@ -141,7 +135,7 @@ func (store DatabaseStore) getResult() (Result, error) {
 
 	for missing := 0; missing <= 8; missing++ {
 		remaining := 8 - missing
-		row = db.QueryRow(`
+		row = store.db.QueryRow(`
 			SELECT
 				COUNT(*),
 				COALESCE(SUM(responsive::int), 0)
@@ -186,15 +180,8 @@ func (store DatabaseStore) getResult() (Result, error) {
 	return Result{}, errors.New("Store error")
 }
 
-func (store DatabaseStore) storeExperiment(e Experiment) error {
-	db, err := sql.Open("pgx", os.Getenv("DATABASE_URL"))
-	if err != nil {
-		log.Println(err)
-		return errors.New("DB error")
-	}
-	defer db.Close()
-
-	_, err = db.Exec(`
+func (store *DatabaseStore) storeExperiment(e Experiment) error {
+	_, err := store.db.Exec(`
 	INSERT INTO experiments (
 		responsive, head, leg1, leg2, leg3, leg4, leg5, leg6, wing1, wing2
 	) VALUES (

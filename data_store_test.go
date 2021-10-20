@@ -1,12 +1,20 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
+	"os"
 	"testing"
 )
 
 func TestResult(t *testing.T) {
-	store := DatabaseStore{}
+	db, err := sql.Open("pgx", os.Getenv("DATABASE_URL"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer db.Close()
+
+	store := DatabaseStore{db: db}
 	res, err := store.getResult()
 
 	if err != nil {
@@ -17,7 +25,13 @@ func TestResult(t *testing.T) {
 }
 
 func TestStore(t *testing.T) {
-	store := DatabaseStore{}
+	db, err := sql.Open("pgx", os.Getenv("DATABASE_URL"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer db.Close()
+
+	store := DatabaseStore{db: db}
 
 	e1 := Experiment{
 		Responsive: true,
@@ -45,7 +59,7 @@ func TestStore(t *testing.T) {
 		Wing2:      true,
 	}
 
-	err := store.storeExperiment(e1)
+	err = store.storeExperiment(e1)
 
 	if err != nil {
 		t.Fatal(err)
