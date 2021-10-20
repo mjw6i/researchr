@@ -23,3 +23,6 @@ db-up:
 
 db-down:
 	podman pod stop pg-rsc && podman pod rm pg-rsc
+
+db-conn:
+	podman exec -it pg-rsc-container psql "${DATABASE_URL}"
