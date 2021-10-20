@@ -163,8 +163,6 @@ func (store DatabaseStore) getResult() (Result, error) {
 		}
 	}
 
-	log.Println(remainedResponsiveMissingPercent)
-
 	return Result{
 		RemainedResponsivePercent:         fmt.Sprintf("%.2f", remainedResponsivePercent),
 		RemainedResponsiveHeadlessPercent: fmt.Sprintf("%.2f", remainedResponsiveHeadlessPercent),
