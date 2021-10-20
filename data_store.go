@@ -19,6 +19,7 @@ type Result struct {
 	RemainedResponsivePercent         string
 	RemainedResponsiveHeadlessPercent string
 	AverageExtremitiesRemoved         string
+	RemainedResponsive0MissingPercent string
 	RemainedResponsive1MissingPercent string
 	RemainedResponsive2MissingPercent string
 	RemainedResponsive3MissingPercent string
@@ -49,6 +50,7 @@ func (store SuccessStore) getResult() (Result, error) {
 		RemainedResponsivePercent:         "57.03",
 		RemainedResponsiveHeadlessPercent: "1.63",
 		AverageExtremitiesRemoved:         "3.72",
+		RemainedResponsive0MissingPercent: "100",
 		RemainedResponsive1MissingPercent: "95.88",
 		RemainedResponsive2MissingPercent: "87.80",
 		RemainedResponsive3MissingPercent: "75.61",
@@ -137,7 +139,7 @@ func (store DatabaseStore) getResult() (Result, error) {
 
 	remainedResponsiveMissingPercent := make(map[int]float64)
 
-	for missing := 1; missing <= 8; missing++ {
+	for missing := 0; missing <= 8; missing++ {
 		remaining := 8 - missing
 		row = db.QueryRow(`
 			SELECT
@@ -170,6 +172,7 @@ func (store DatabaseStore) getResult() (Result, error) {
 		RemainedResponsivePercent:         fmt.Sprintf("%.2f", remainedResponsivePercent),
 		RemainedResponsiveHeadlessPercent: fmt.Sprintf("%.2f", remainedResponsiveHeadlessPercent),
 		AverageExtremitiesRemoved:         fmt.Sprintf("%.2f", averageExtremitiesRemoved),
+		RemainedResponsive0MissingPercent: fmt.Sprintf("%.2f", remainedResponsiveMissingPercent[0]),
 		RemainedResponsive1MissingPercent: fmt.Sprintf("%.2f", remainedResponsiveMissingPercent[1]),
 		RemainedResponsive2MissingPercent: fmt.Sprintf("%.2f", remainedResponsiveMissingPercent[2]),
 		RemainedResponsive3MissingPercent: fmt.Sprintf("%.2f", remainedResponsiveMissingPercent[3]),
