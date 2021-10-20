@@ -111,6 +111,28 @@ func (store DatabaseStore) getResult() (Result, error) {
 		averageExtremitiesRemoved = float64(8*count-extremity) / float64(count)
 	}
 
+	var headless int
+
+	row = db.QueryRow(`
+	SELECT COUNT(*)
+	FROM experiments
+	WHERE responsive = TRUE AND head = FALSE
+	`)
+
+	err = row.Scan(&headless)
+	if err != nil {
+		log.Println(err)
+		return Result{}, errors.New("DB error")
+	}
+
+	var remainedResponsiveHeadlessPercent float64
+
+	if count == 0 {
+		remainedResponsiveHeadlessPercent = 0
+	} else {
+		remainedResponsiveHeadlessPercent = float64(headless) / float64(count)
+	}
+
 	remainedResponsiveMissingPercent := make(map[int]float64)
 
 	for missing := 1; missing <= 8; missing++ {
@@ -145,7 +167,7 @@ func (store DatabaseStore) getResult() (Result, error) {
 
 	return Result{
 		RemainedResponsivePercent:         fmt.Sprintf("%.2f", remainedResponsivePercent),
-		RemainedResponsiveHeadlessPercent: "1.63",
+		RemainedResponsiveHeadlessPercent: fmt.Sprintf("%.2f", remainedResponsiveHeadlessPercent),
 		AverageExtremitiesRemoved:         fmt.Sprintf("%.2f", averageExtremitiesRemoved),
 		RemainedResponsive1MissingPercent: fmt.Sprintf("%.2f", remainedResponsiveMissingPercent[1]),
 		RemainedResponsive2MissingPercent: fmt.Sprintf("%.2f", remainedResponsiveMissingPercent[2]),
