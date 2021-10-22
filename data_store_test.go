@@ -36,9 +36,7 @@ func TestGetAbsoluteDataError(t *testing.T) {
 	store := DatabaseStore{db: db}
 	_, _, err = store.getAbsoluteData()
 
-	if err == nil {
-		t.Fatal("Expected an error")
-	}
+	assertError(t, "DB error", err)
 
 	err = mock.ExpectationsWereMet()
 
@@ -119,9 +117,7 @@ func TestGetHeadlessDataError(t *testing.T) {
 	store := DatabaseStore{db: db}
 	_, err = store.getHeadlessData()
 
-	if err == nil {
-		t.Fatal("Expected an error")
-	}
+	assertError(t, "DB error", err)
 
 	err = mock.ExpectationsWereMet()
 	if err != nil {
@@ -198,9 +194,7 @@ func TestGetExtremitiesMissingDataError(t *testing.T) {
 
 	_, err = store.getExtremitiesMissingData()
 
-	if err == nil {
-		t.Fatal("Expected an error")
-	}
+	assertError(t, "DB error", err)
 
 	err = mock.ExpectationsWereMet()
 	if err != nil {
@@ -297,9 +291,7 @@ func TestStoreError(t *testing.T) {
 
 	err = store.storeExperiment(e)
 
-	if err == nil {
-		t.Fatal("Expected an error")
-	}
+	assertError(t, "Store error", err)
 
 	err = mock.ExpectationsWereMet()
 	if err != nil {
