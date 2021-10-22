@@ -163,6 +163,7 @@ label[for=responsiveness-yes] {
     transition-duration: 1s;
 }
 #responsiveness-container .flask {
+    user-select: none;
     animation-duration: 3s;
     animation-timing-function: ease-in-out;
     animation-name: tinyswing;
