@@ -17,13 +17,11 @@ func TestResult(t *testing.T) {
 	defer db.Close()
 
 	store := DatabaseStore{db: db}
-	res, err := store.getResult()
+	_, err = store.getResult()
 
 	if err != nil {
 		t.Fatal(err)
 	}
-
-	fmt.Println(res)
 }
 
 func TestGetAbsoluteDataError(t *testing.T) {
