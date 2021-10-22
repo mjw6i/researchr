@@ -68,3 +68,19 @@ func assertHeader(t *testing.T, r *httptest.ResponseRecorder, key string, value 
 		t.Fatalf("Expected header: '%v' got '%v'", value, r.Header().Get(key))
 	}
 }
+
+func assertFloat(t *testing.T, expected float64, actual float64) {
+	if expected != actual {
+		t.Fatalf("Expected value: '%v' got '%v'", expected, actual)
+	}
+}
+
+func assertError(t *testing.T, expected string, err error) {
+	if err == nil {
+		t.Fatal("Expected an error")
+	}
+
+	if err.Error() != expected {
+		t.Fatalf("Expected error: '%v' got '%v'", expected, err.Error())
+	}
+}
