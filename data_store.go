@@ -150,15 +150,12 @@ func (store *DatabaseStore) getAbsoluteData() (float64, float64, error) {
 		return 0, 0, errors.New("DB error")
 	}
 
-	var remainedResponsivePercent, averageExtremitiesRemoved float64
-
 	if count == 0 {
-		remainedResponsivePercent = 0
-		averageExtremitiesRemoved = 0
-	} else {
-		remainedResponsivePercent = 100 * float64(responsive) / float64(count)
-		averageExtremitiesRemoved = float64(8*count-extremity) / float64(count)
+		return 0, 0, nil
 	}
+
+	remainedResponsivePercent := 100 * float64(responsive) / float64(count)
+	averageExtremitiesRemoved := float64(8*count-extremity) / float64(count)
 
 	return remainedResponsivePercent, averageExtremitiesRemoved, nil
 }
@@ -180,13 +177,11 @@ func (store *DatabaseStore) getHeadlessData() (float64, error) {
 		return 0, errors.New("DB error")
 	}
 
-	var remainedResponsiveHeadlessPercent float64
-
 	if headless == 0 {
-		remainedResponsiveHeadlessPercent = 0
-	} else {
-		remainedResponsiveHeadlessPercent = 100 * float64(headlessResponsive) / float64(headless)
+		return 0, nil
 	}
+
+	remainedResponsiveHeadlessPercent := 100 * float64(headlessResponsive) / float64(headless)
 
 	return remainedResponsiveHeadlessPercent, nil
 }
