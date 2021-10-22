@@ -187,6 +187,29 @@ func TestGetHeadlessDataFilled(t *testing.T) {
 	}
 }
 
+func TestGetExtremitiesMissingDataError(t *testing.T) {
+	db, mock, err := sqlmock.New()
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer db.Close()
+
+	mock.ExpectQuery("SELECT").WillReturnError(fmt.Errorf("SQL Error"))
+
+	store := DatabaseStore{db: db}
+
+	_, err = store.getExtremitiesMissingData()
+
+	if err == nil {
+		t.Fatal("Expected an error")
+	}
+
+	err = mock.ExpectationsWereMet()
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
 func TestGetExtremitiesMissingDataEmpty(t *testing.T) {
 	db, mock, err := sqlmock.New()
 	if err != nil {
