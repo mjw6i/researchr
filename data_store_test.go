@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"os"
 	"testing"
+
+	"github.com/DATA-DOG/go-sqlmock"
 )
 
 func TestResult(t *testing.T) {
@@ -22,6 +24,185 @@ func TestResult(t *testing.T) {
 	}
 
 	fmt.Println(res)
+}
+
+func TestGetAbsoluteDataEmpty(t *testing.T) {
+	db, mock, err := sqlmock.New()
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer db.Close()
+
+	rows := sqlmock.NewRows([]string{"count", "responsive", "extremity"}).AddRow(0, 0, 0)
+
+	mock.ExpectQuery("SELECT").WillReturnRows(rows)
+
+	store := DatabaseStore{db: db}
+	remainedPercent, averageRemoved, err := store.getAbsoluteData()
+
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	assertFloat(t, 0, remainedPercent)
+	assertFloat(t, 0, averageRemoved)
+
+	err = mock.ExpectationsWereMet()
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestGetAbsoluteDataFilled(t *testing.T) {
+	db, mock, err := sqlmock.New()
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer db.Close()
+
+	count := 3
+	responsive := 2
+	extremitiesRemaining := 11
+	extremitiesRemoved := 13
+
+	rows := sqlmock.NewRows([]string{"count", "responsive", "extremity"}).AddRow(count, responsive, extremitiesRemaining)
+
+	mock.ExpectQuery("SELECT").WillReturnRows(rows)
+
+	store := DatabaseStore{db: db}
+	remainedPercent, averageRemoved, err := store.getAbsoluteData()
+
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	assertFloat(t, 100*float64(responsive)/float64(count), remainedPercent)
+	assertFloat(t, float64(extremitiesRemoved)/float64(count), averageRemoved)
+
+	err = mock.ExpectationsWereMet()
+
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestGetHeadlessDataEmpty(t *testing.T) {
+	db, mock, err := sqlmock.New()
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer db.Close()
+
+	rows := sqlmock.NewRows([]string{"count", "responsive"}).AddRow(0, 0)
+
+	mock.ExpectQuery("SELECT").WillReturnRows(rows)
+
+	store := DatabaseStore{db: db}
+	remainedPercent, err := store.getHeadlessData()
+
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	assertFloat(t, 0, remainedPercent)
+
+	err = mock.ExpectationsWereMet()
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestGetHeadlessDataFilled(t *testing.T) {
+	db, mock, err := sqlmock.New()
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer db.Close()
+
+	count := 3
+	responsive := 2
+
+	rows := sqlmock.NewRows([]string{"count", "responsive"}).AddRow(count, responsive)
+
+	mock.ExpectQuery("SELECT").WillReturnRows(rows)
+
+	store := DatabaseStore{db: db}
+	remainedPercent, err := store.getHeadlessData()
+
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	assertFloat(t, 100*float64(responsive)/float64(count), remainedPercent)
+
+	err = mock.ExpectationsWereMet()
+
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestGetExtremitiesMissingDataEmpty(t *testing.T) {
+	db, mock, err := sqlmock.New()
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer db.Close()
+
+	for i := 1; i <= 9; i++ {
+		rows := sqlmock.NewRows([]string{"count", "sum"}).AddRow(0, 0)
+
+		mock.ExpectQuery("SELECT").WillReturnRows(rows)
+	}
+
+	store := DatabaseStore{db: db}
+	remainedPercentages, err := store.getExtremitiesMissingData()
+
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	for _, percent := range remainedPercentages {
+		assertFloat(t, 0, percent)
+	}
+
+	err = mock.ExpectationsWereMet()
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestGetExtremitiesMissingDataFilled(t *testing.T) {
+	db, mock, err := sqlmock.New()
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer db.Close()
+
+	total := 11
+	responsive := 3
+
+	for i := 1; i <= 9; i++ {
+		rows := sqlmock.NewRows([]string{"count", "sum"}).AddRow(total, responsive)
+
+		mock.ExpectQuery("SELECT").WillReturnRows(rows)
+	}
+
+	store := DatabaseStore{db: db}
+	remainedPercentages, err := store.getExtremitiesMissingData()
+
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	for _, percent := range remainedPercentages {
+		assertFloat(t, 100*float64(responsive)/float64(total), percent)
+	}
+
+	err = mock.ExpectationsWereMet()
+	if err != nil {
+		t.Fatal(err)
+	}
 }
 
 func TestStore(t *testing.T) {
