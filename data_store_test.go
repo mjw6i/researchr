@@ -273,6 +273,42 @@ func TestGetExtremitiesMissingDataFilled(t *testing.T) {
 	}
 }
 
+func TestStoreError(t *testing.T) {
+	db, mock, err := sqlmock.New()
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer db.Close()
+
+	mock.ExpectExec("INSERT").WillReturnError(fmt.Errorf("SQL Error"))
+
+	store := DatabaseStore{db: db}
+
+	e := Experiment{
+		Responsive: true,
+		Head:       false,
+		Leg1:       true,
+		Leg2:       false,
+		Leg3:       true,
+		Leg4:       false,
+		Leg5:       true,
+		Leg6:       false,
+		Wing1:      true,
+		Wing2:      false,
+	}
+
+	err = store.storeExperiment(e)
+
+	if err == nil {
+		t.Fatal("Expected an error")
+	}
+
+	err = mock.ExpectationsWereMet()
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
 func TestStore(t *testing.T) {
 	db, err := sql.Open("pgx", os.Getenv("DATABASE_URL"))
 	if err != nil {
