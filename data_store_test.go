@@ -26,6 +26,29 @@ func TestResult(t *testing.T) {
 	fmt.Println(res)
 }
 
+func TestGetAbsoluteDataError(t *testing.T) {
+	db, mock, err := sqlmock.New()
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer db.Close()
+
+	mock.ExpectQuery("SELECT").WillReturnError(fmt.Errorf("SQL Error"))
+
+	store := DatabaseStore{db: db}
+	_, _, err = store.getAbsoluteData()
+
+	if err == nil {
+		t.Fatal("Expected an error")
+	}
+
+	err = mock.ExpectationsWereMet()
+
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
 func TestGetAbsoluteDataEmpty(t *testing.T) {
 	db, mock, err := sqlmock.New()
 	if err != nil {
@@ -81,6 +104,28 @@ func TestGetAbsoluteDataFilled(t *testing.T) {
 
 	err = mock.ExpectationsWereMet()
 
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestGetHeadlessDataError(t *testing.T) {
+	db, mock, err := sqlmock.New()
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer db.Close()
+
+	mock.ExpectQuery("SELECT").WillReturnError(fmt.Errorf("SQL Error"))
+
+	store := DatabaseStore{db: db}
+	_, err = store.getHeadlessData()
+
+	if err == nil {
+		t.Fatal("Expected an error")
+	}
+
+	err = mock.ExpectationsWereMet()
 	if err != nil {
 		t.Fatal(err)
 	}
