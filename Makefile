@@ -29,3 +29,6 @@ db-down:
 
 db-conn:
 	podman exec -it pg-rsc-container psql "${DATABASE_URL}"
+
+stat:
+	watch -n 1 -t "ss -t | grep '127.0.0.1:postgres' | wc -l"
