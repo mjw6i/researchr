@@ -20,6 +20,8 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	db.SetMaxIdleConns(80)
+	db.SetMaxOpenConns(80)
 	defer db.Close()
 	ds := DatabaseStore{db: db}
 	env := &Env{store: &ds}
