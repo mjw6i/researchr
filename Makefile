@@ -1,4 +1,4 @@
-export DATABASE_URL = postgresql://127.0.0.1/rsc?user=postgres&password=secret
+export DATABASE_URL = postgresql://postgres:secret@127.0.0.1:5432/rsc
 
 run:
 	go run .
