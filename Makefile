@@ -32,3 +32,6 @@ db-conn:
 
 stat:
 	watch -n 1 -t "ss -t | grep '127.0.0.1:postgres' | wc -l"
+
+ab:
+	ab -c 200 -n 20000 http://localhost:9000/results
