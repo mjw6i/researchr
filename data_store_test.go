@@ -24,6 +24,75 @@ func TestResult(t *testing.T) {
 	}
 }
 
+func TestGetResultError1(t *testing.T) {
+	db, mock, err := sqlmock.New()
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer db.Close()
+
+	mock.ExpectQuery("SELECT").WillReturnError(fmt.Errorf("SQL Error"))
+
+	store := DatabaseStore{db: db}
+	_, err = store.getResult()
+
+	assertError(t, "DB error", err)
+
+	err = mock.ExpectationsWereMet()
+
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestGetResultError2(t *testing.T) {
+	db, mock, err := sqlmock.New()
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer db.Close()
+
+	rows := sqlmock.NewRows([]string{"count", "responsive", "extremity"}).AddRow(0, 0, 0)
+	mock.ExpectQuery("SELECT").WillReturnRows(rows)
+	mock.ExpectQuery("SELECT").WillReturnError(fmt.Errorf("SQL Error"))
+
+	store := DatabaseStore{db: db}
+	_, err = store.getResult()
+
+	assertError(t, "DB error", err)
+
+	err = mock.ExpectationsWereMet()
+
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestGetResultError3(t *testing.T) {
+	db, mock, err := sqlmock.New()
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer db.Close()
+
+	rows := sqlmock.NewRows([]string{"count", "responsive", "extremity"}).AddRow(0, 0, 0)
+	mock.ExpectQuery("SELECT").WillReturnRows(rows)
+	rows = sqlmock.NewRows([]string{"count", "responsive"}).AddRow(0, 0)
+	mock.ExpectQuery("SELECT").WillReturnRows(rows)
+	mock.ExpectQuery("SELECT").WillReturnError(fmt.Errorf("SQL Error"))
+
+	store := DatabaseStore{db: db}
+	_, err = store.getResult()
+
+	assertError(t, "DB error", err)
+
+	err = mock.ExpectationsWereMet()
+
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
 func TestGetAbsoluteDataError(t *testing.T) {
 	db, mock, err := sqlmock.New()
 	if err != nil {
@@ -53,7 +122,6 @@ func TestGetAbsoluteDataEmpty(t *testing.T) {
 	defer db.Close()
 
 	rows := sqlmock.NewRows([]string{"count", "responsive", "extremity"}).AddRow(0, 0, 0)
-
 	mock.ExpectQuery("SELECT").WillReturnRows(rows)
 
 	store := DatabaseStore{db: db}
@@ -85,7 +153,6 @@ func TestGetAbsoluteDataFilled(t *testing.T) {
 	extremitiesRemoved := 13
 
 	rows := sqlmock.NewRows([]string{"count", "responsive", "extremity"}).AddRow(count, responsive, extremitiesRemaining)
-
 	mock.ExpectQuery("SELECT").WillReturnRows(rows)
 
 	store := DatabaseStore{db: db}
@@ -133,7 +200,6 @@ func TestGetHeadlessDataEmpty(t *testing.T) {
 	defer db.Close()
 
 	rows := sqlmock.NewRows([]string{"count", "responsive"}).AddRow(0, 0)
-
 	mock.ExpectQuery("SELECT").WillReturnRows(rows)
 
 	store := DatabaseStore{db: db}
@@ -162,7 +228,6 @@ func TestGetHeadlessDataFilled(t *testing.T) {
 	responsive := 2
 
 	rows := sqlmock.NewRows([]string{"count", "responsive"}).AddRow(count, responsive)
-
 	mock.ExpectQuery("SELECT").WillReturnRows(rows)
 
 	store := DatabaseStore{db: db}
@@ -211,7 +276,6 @@ func TestGetExtremitiesMissingDataEmpty(t *testing.T) {
 
 	for i := 1; i <= 9; i++ {
 		rows := sqlmock.NewRows([]string{"count", "sum"}).AddRow(0, 0)
-
 		mock.ExpectQuery("SELECT").WillReturnRows(rows)
 	}
 
@@ -244,7 +308,6 @@ func TestGetExtremitiesMissingDataFilled(t *testing.T) {
 
 	for i := 1; i <= 9; i++ {
 		rows := sqlmock.NewRows([]string{"count", "sum"}).AddRow(total, responsive)
-
 		mock.ExpectQuery("SELECT").WillReturnRows(rows)
 	}
 
