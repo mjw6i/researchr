@@ -152,7 +152,7 @@ func (store *DatabaseStore) getHeadlessData() (float64, error) {
 }
 
 func (store *DatabaseStore) getExtremitiesMissingData() (map[int]float64, error) {
-	remainedResponsiveMissingPercent := make(map[int]float64)
+	remainedResponsive := make(map[int]float64)
 
 	for missing := 0; missing <= 8; missing++ {
 		remaining := 8 - missing
@@ -177,11 +177,11 @@ func (store *DatabaseStore) getExtremitiesMissingData() (map[int]float64, error)
 		}
 
 		if total == 0 {
-			remainedResponsiveMissingPercent[missing] = 0
+			remainedResponsive[missing] = 0
 		} else {
-			remainedResponsiveMissingPercent[missing] = 100 * float64(responsive) / float64(total)
+			remainedResponsive[missing] = 100 * float64(responsive) / float64(total)
 		}
 	}
 
-	return remainedResponsiveMissingPercent, nil
+	return remainedResponsive, nil
 }
