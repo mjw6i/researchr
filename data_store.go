@@ -126,7 +126,7 @@ func (store *DatabaseStore) getAbsoluteData() (float64, float64, error) {
 }
 
 func (store *DatabaseStore) getHeadlessData() (float64, error) {
-	var headless, headlessResponsive int
+	var count, responsive int
 
 	row := store.db.QueryRow(`
 	SELECT
@@ -136,19 +136,19 @@ func (store *DatabaseStore) getHeadlessData() (float64, error) {
 	WHERE head = FALSE
 	`)
 
-	err := row.Scan(&headless, &headlessResponsive)
+	err := row.Scan(&count, &responsive)
 	if err != nil {
 		log.Println(err)
 		return 0, errors.New("DB error")
 	}
 
-	if headless == 0 {
+	if count == 0 {
 		return 0, nil
 	}
 
-	remainedResponsiveHeadlessPercent := 100 * float64(headlessResponsive) / float64(headless)
+	percent := 100 * float64(responsive) / float64(count)
 
-	return remainedResponsiveHeadlessPercent, nil
+	return percent, nil
 }
 
 func (store *DatabaseStore) getExtremitiesMissingData() (map[int]float64, error) {
