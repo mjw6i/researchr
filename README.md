@@ -14,3 +14,8 @@ More generalised SQL driver
 You can use makefile.\
 `make db-up` followed by `make run`.\
 Use `make db-down` for teardown.
+
+## Docker
+You can use makefile.\
+`make docker-db-up` followed by `make run`.\
+Use `make docker-db-down` for teardown.
