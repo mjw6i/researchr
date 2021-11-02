@@ -10,6 +10,7 @@ No Rasterized graphics\
 More generalised SQL driver
 
 # How to run
+Server will listen on port 9000.
 ## Podman
 `make db-up` followed by `make run`.\
 Use `make db-down` for teardown.
