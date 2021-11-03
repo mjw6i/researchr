@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"flag"
 	"html/template"
 	"log"
 	"net/http"
@@ -16,6 +17,9 @@ var assets = loadNestedTemplates("template/assets.htm")
 var static = http.StripPrefix("/static", http.FileServer(http.Dir("./static")))
 
 func main() {
+	var addr string
+	flag.StringVar(&addr, "addr", ":9000", "listen address")
+	flag.Parse()
 	db, err := sql.Open("pgx", os.Getenv("DATABASE_URL"))
 	if err != nil {
 		log.Fatal(err)
@@ -32,7 +36,8 @@ func main() {
 	http.HandleFunc("/results", env.resultsHandler)
 	http.HandleFunc("/assets", assetsHandler)
 	http.Handle("/static/", static)
-	log.Fatal(http.ListenAndServe(":9000", nil))
+	log.Println("Listening on: ", addr)
+	log.Fatal(http.ListenAndServe(addr, nil))
 }
 
 func render(w http.ResponseWriter, t *template.Template, data interface{}) {
