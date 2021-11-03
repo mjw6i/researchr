@@ -9,7 +9,7 @@ import (
 	_ "github.com/jackc/pgx/v4/stdlib"
 )
 
-type DataStore interface {
+type Store interface {
 	getResult() (Result, error)
 	storeExperiment(Experiment) error
 }
