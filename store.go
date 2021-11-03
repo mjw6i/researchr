@@ -145,8 +145,8 @@ func (store *DatabaseStore) getHeadlessData() (float64, error) {
 	return percent, nil
 }
 
-func (store *DatabaseStore) getExtremitiesMissingData() (map[int]float64, error) {
-	remainedResponsive := make(map[int]float64)
+func (store *DatabaseStore) getExtremitiesMissingData() ([9]float64, error) {
+	var remainedResponsive [9]float64
 
 	for missing := 0; missing <= 8; missing++ {
 		remaining := 8 - missing
@@ -167,7 +167,7 @@ func (store *DatabaseStore) getExtremitiesMissingData() (map[int]float64, error)
 		err := row.Scan(&total, &responsive)
 		if err != nil {
 			log.Println(err)
-			return make(map[int]float64), errors.New("DB error")
+			return [9]float64{}, errors.New("DB error")
 		}
 
 		if total == 0 {
