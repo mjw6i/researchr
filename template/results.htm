@@ -18,15 +18,15 @@
                 <span>20%</span>
                 <span>10%</span>
             </li>
-            <li style="height: {{ .RemainedResponsive0MissingPercent }}%;"></li>
-            <li style="height: {{ .RemainedResponsive1MissingPercent }}%;"></li>
-            <li style="height: {{ .RemainedResponsive2MissingPercent }}%;"></li>
-            <li style="height: {{ .RemainedResponsive3MissingPercent }}%;"></li>
-            <li style="height: {{ .RemainedResponsive4MissingPercent }}%;"></li>
-            <li style="height: {{ .RemainedResponsive5MissingPercent }}%;"></li>
-            <li style="height: {{ .RemainedResponsive6MissingPercent }}%;"></li>
-            <li style="height: {{ .RemainedResponsive7MissingPercent }}%;"></li>
-            <li style="height: {{ .RemainedResponsive8MissingPercent }}%;"></li>
+            <li style="height: {{ index .RemainedResponsiveMissingPercent 0 }}%;"></li>
+            <li style="height: {{ index .RemainedResponsiveMissingPercent 1 }}%;"></li>
+            <li style="height: {{ index .RemainedResponsiveMissingPercent 2 }}%;"></li>
+            <li style="height: {{ index .RemainedResponsiveMissingPercent 3 }}%;"></li>
+            <li style="height: {{ index .RemainedResponsiveMissingPercent 4 }}%;"></li>
+            <li style="height: {{ index .RemainedResponsiveMissingPercent 5 }}%;"></li>
+            <li style="height: {{ index .RemainedResponsiveMissingPercent 6 }}%;"></li>
+            <li style="height: {{ index .RemainedResponsiveMissingPercent 7 }}%;"></li>
+            <li style="height: {{ index .RemainedResponsiveMissingPercent 8 }}%;"></li>
         </ul>
         <ul id="responsiveness-chart-labels">
             <li></li>

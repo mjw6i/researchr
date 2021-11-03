@@ -18,15 +18,7 @@ type Result struct {
 	RemainedResponsivePercent         string
 	RemainedResponsiveHeadlessPercent string
 	AverageExtremitiesRemoved         string
-	RemainedResponsive0MissingPercent string
-	RemainedResponsive1MissingPercent string
-	RemainedResponsive2MissingPercent string
-	RemainedResponsive3MissingPercent string
-	RemainedResponsive4MissingPercent string
-	RemainedResponsive5MissingPercent string
-	RemainedResponsive6MissingPercent string
-	RemainedResponsive7MissingPercent string
-	RemainedResponsive8MissingPercent string
+	RemainedResponsiveMissingPercent  [9]string
 }
 
 type Experiment struct {
@@ -69,15 +61,17 @@ func (store *DatabaseStore) getResult() (Result, error) {
 		RemainedResponsivePercent:         fmt.Sprintf("%.2f", remainedResponsivePercent),
 		RemainedResponsiveHeadlessPercent: fmt.Sprintf("%.2f", remainedResponsiveHeadlessPercent),
 		AverageExtremitiesRemoved:         fmt.Sprintf("%.2f", averageExtremitiesRemoved),
-		RemainedResponsive0MissingPercent: fmt.Sprintf("%.2f", remainedResponsiveMissingPercent[0]),
-		RemainedResponsive1MissingPercent: fmt.Sprintf("%.2f", remainedResponsiveMissingPercent[1]),
-		RemainedResponsive2MissingPercent: fmt.Sprintf("%.2f", remainedResponsiveMissingPercent[2]),
-		RemainedResponsive3MissingPercent: fmt.Sprintf("%.2f", remainedResponsiveMissingPercent[3]),
-		RemainedResponsive4MissingPercent: fmt.Sprintf("%.2f", remainedResponsiveMissingPercent[4]),
-		RemainedResponsive5MissingPercent: fmt.Sprintf("%.2f", remainedResponsiveMissingPercent[5]),
-		RemainedResponsive6MissingPercent: fmt.Sprintf("%.2f", remainedResponsiveMissingPercent[6]),
-		RemainedResponsive7MissingPercent: fmt.Sprintf("%.2f", remainedResponsiveMissingPercent[7]),
-		RemainedResponsive8MissingPercent: fmt.Sprintf("%.2f", remainedResponsiveMissingPercent[8]),
+		RemainedResponsiveMissingPercent: [9]string{
+			fmt.Sprintf("%.2f", remainedResponsiveMissingPercent[0]),
+			fmt.Sprintf("%.2f", remainedResponsiveMissingPercent[1]),
+			fmt.Sprintf("%.2f", remainedResponsiveMissingPercent[2]),
+			fmt.Sprintf("%.2f", remainedResponsiveMissingPercent[3]),
+			fmt.Sprintf("%.2f", remainedResponsiveMissingPercent[4]),
+			fmt.Sprintf("%.2f", remainedResponsiveMissingPercent[5]),
+			fmt.Sprintf("%.2f", remainedResponsiveMissingPercent[6]),
+			fmt.Sprintf("%.2f", remainedResponsiveMissingPercent[7]),
+			fmt.Sprintf("%.2f", remainedResponsiveMissingPercent[8]),
+		},
 	}, nil
 
 	return Result{}, errors.New("Store error")
