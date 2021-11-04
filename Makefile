@@ -10,7 +10,7 @@ race:
 	go test -race
 
 cover:
-	go test -coverprofile=coverage.out && go tool cover -html=coverage.out
+	go vet && go test -coverprofile=coverage.out && go tool cover -html=coverage.out
 
 db-up:
 	podman create --rm \

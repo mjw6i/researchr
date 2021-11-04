@@ -73,8 +73,6 @@ func (store *DatabaseStore) getResult() (Result, error) {
 			fmt.Sprintf("%.2f", remainedResponsiveMissingPercent[8]),
 		},
 	}, nil
-
-	return Result{}, errors.New("Store error")
 }
 
 func (store *DatabaseStore) storeExperiment(e Experiment) error {
