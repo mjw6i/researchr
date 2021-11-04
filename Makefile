@@ -12,6 +12,9 @@ race:
 cover:
 	go vet && go test -coverprofile=coverage.out && go tool cover -html=coverage.out
 
+st:
+	staticcheck .
+
 db-up:
 	podman create --rm \
 		--pod new:pg-rsc \

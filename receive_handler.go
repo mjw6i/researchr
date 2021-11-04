@@ -32,7 +32,7 @@ func parseExperimentFormData(r *http.Request) (Experiment, error) {
 	} else if r.FormValue("responsive") == "no" {
 		responsive = false
 	} else {
-		return Experiment{}, errors.New("Incorrect responsive value")
+		return Experiment{}, errors.New("incorrect responsive value")
 	}
 
 	return Experiment{
