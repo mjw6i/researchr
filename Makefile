@@ -1,7 +1,7 @@
 export DATABASE_URL = postgresql://postgres:secret@127.0.0.1:5432/rsc
 
 run:
-	go run .
+	go run cmd/main.go
 
 test:
 	go test

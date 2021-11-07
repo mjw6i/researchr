@@ -1,10 +1,10 @@
-package main
+package internal
 
 import (
 	"net/http"
 )
 
-func baseHandler(w http.ResponseWriter, r *http.Request) {
+func BaseHandler(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/" {
 		http.NotFound(w, r)
 		return

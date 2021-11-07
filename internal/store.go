@@ -1,4 +1,4 @@
-package main
+package internal
 
 import (
 	"database/sql"
@@ -36,6 +36,11 @@ type Experiment struct {
 
 type DatabaseStore struct {
 	db *sql.DB
+}
+
+func NewDatabaseStore(db *sql.DB) *DatabaseStore {
+	store := DatabaseStore{db: db}
+	return &store
 }
 
 func (store *DatabaseStore) getResult() (Result, error) {
