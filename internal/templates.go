@@ -14,6 +14,15 @@ func Render(w http.ResponseWriter, t *template.Template, data interface{}) {
 }
 
 func LoadNestedTemplates(filenames ...string) *template.Template {
-	t := append([]string{"template/layout.htm"}, filenames...)
+	t := append([]string{"layout.htm"}, filenames...)
+	t = templatePath(t)
 	return template.Must(template.ParseFiles(t...))
+}
+
+func templatePath(templates []string) []string {
+	for i, t := range templates {
+		templates[i] = "../web/template/" + t
+	}
+
+	return templates
 }

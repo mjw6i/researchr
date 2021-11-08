@@ -1,19 +1,22 @@
 export DATABASE_URL = postgresql://postgres:secret@127.0.0.1:5432/rsc
+export PACKAGES = ./cmd github.com/mjw6i/researchr/internal
 
 run:
-	go run cmd/main.go
+	cd cmd && go run .
 
 test:
-	go test
+	go test ${PACKAGES}
 
 race:
-	go test -race
+	go test ${PACKAGES} -race
 
 cover:
-	go vet && go test -coverprofile=coverage.out && go tool cover -html=coverage.out
+	go vet ${PACKAGES} && \
+	go test ${PACKAGES} -coverprofile=coverage.out && \
+	go tool cover -html=coverage.out
 
 st:
-	staticcheck .
+	staticcheck ${PACKAGES}
 
 db-up:
 	podman create --rm \

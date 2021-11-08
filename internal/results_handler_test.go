@@ -2,24 +2,26 @@ package internal
 
 import (
 	"testing"
+
+	"github.com/mjw6i/researchr/pkg"
 )
 
 func TestResultsRoute(t *testing.T) {
 	ds := SuccessStore{}
-	env := &Env{store: ds}
+	env := &Env{Store: ds}
 
-	recorder := makeRequest(t, env.resultsHandler, "/results")
+	recorder := pkg.MakeRequest(t, env.ResultsHandler, "/results")
 
-	assertStatus(t, recorder, 200)
-	assertBodyStartsWith(t, recorder, "<!DOCTYPE html>")
+	pkg.AssertStatus(t, recorder, 200)
+	pkg.AssertBodyStartsWith(t, recorder, "<!DOCTYPE html>")
 }
 
 func TestResultsStore(t *testing.T) {
 	ds := FailureStore{}
-	env := &Env{store: ds}
+	env := &Env{Store: ds}
 
-	recorder := makeRequest(t, env.resultsHandler, "/results")
+	recorder := pkg.MakeRequest(t, env.ResultsHandler, "/results")
 
-	assertStatus(t, recorder, 500)
-	assertBody(t, recorder, "")
+	pkg.AssertStatus(t, recorder, 500)
+	pkg.AssertBody(t, recorder, "")
 }

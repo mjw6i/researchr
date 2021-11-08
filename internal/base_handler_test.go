@@ -2,18 +2,20 @@ package internal
 
 import (
 	"testing"
+
+	"github.com/mjw6i/researchr/pkg"
 )
 
 func TestRandomRoute(t *testing.T) {
-	recorder := makeRequest(t, baseHandler, "/random")
+	recorder := pkg.MakeRequest(t, BaseHandler, "/random")
 
-	assertStatus(t, recorder, 404)
-	assertBody(t, recorder, "404 page not found\n")
+	pkg.AssertStatus(t, recorder, 404)
+	pkg.AssertBody(t, recorder, "404 page not found\n")
 }
 
 func TestBaseRoute(t *testing.T) {
-	recorder := makeRequest(t, baseHandler, "/")
+	recorder := pkg.MakeRequest(t, BaseHandler, "/")
 
-	assertStatus(t, recorder, 200)
-	assertBodyStartsWith(t, recorder, "<!DOCTYPE html>")
+	pkg.AssertStatus(t, recorder, 200)
+	pkg.AssertBodyStartsWith(t, recorder, "<!DOCTYPE html>")
 }

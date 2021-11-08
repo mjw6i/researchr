@@ -10,5 +10,5 @@ func BaseHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	homeHandler(w, r)
+	HomeHandler(w, r)
 }

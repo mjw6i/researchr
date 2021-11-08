@@ -10,7 +10,7 @@ import (
 	"github.com/mjw6i/researchr/internal"
 )
 
-var static = http.StripPrefix("/static", http.FileServer(http.Dir("./static")))
+var static = http.StripPrefix("/static", http.FileServer(http.Dir("../web/static")))
 
 func main() {
 	var addr string

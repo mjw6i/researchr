@@ -4,7 +4,7 @@ import (
 	"net/http"
 )
 
-var submit = LoadNestedTemplates("template/submit.htm", "template/mosquito.htm")
+var submit = LoadNestedTemplates("submit.htm", "mosquito.htm")
 
 func SubmitHandler(w http.ResponseWriter, r *http.Request) {
 	Render(w, submit, nil)

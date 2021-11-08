@@ -4,7 +4,10 @@ go 1.17
 
 replace github.com/mjw6i/researchr/internal => ./internal
 
-require github.com/mjw6i/researchr/internal v0.0.0-00010101000000-000000000000
+require (
+	github.com/mjw6i/researchr/internal v0.0.0-00010101000000-000000000000
+	github.com/mjw6i/researchr/pkg v0.0.0-00010101000000-000000000000
+)
 
 require (
 	github.com/jackc/chunkreader/v2 v2.0.1 // indirect
@@ -18,3 +21,5 @@ require (
 	golang.org/x/crypto v0.0.0-20210711020723-a769d52b0f97 // indirect
 	golang.org/x/text v0.3.6 // indirect
 )
+
+replace github.com/mjw6i/researchr/pkg => ./pkg

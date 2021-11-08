@@ -2,11 +2,13 @@ package internal
 
 import (
 	"testing"
+
+	"github.com/mjw6i/researchr/pkg"
 )
 
 func TestHomeRoute(t *testing.T) {
-	recorder := makeRequest(t, homeHandler, "/")
+	recorder := pkg.MakeRequest(t, HomeHandler, "/")
 
-	assertStatus(t, recorder, 200)
-	assertBodyStartsWith(t, recorder, "<!DOCTYPE html>")
+	pkg.AssertStatus(t, recorder, 200)
+	pkg.AssertBodyStartsWith(t, recorder, "<!DOCTYPE html>")
 }

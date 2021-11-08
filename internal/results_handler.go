@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-var results = LoadNestedTemplates("template/results.htm")
+var results = LoadNestedTemplates("results.htm")
 
 func (env *Env) ResultsHandler(w http.ResponseWriter, r *http.Request) {
 	res, err := env.Store.getResult()
