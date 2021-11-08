@@ -4,8 +4,8 @@ import (
 	"net/http"
 )
 
-var home = LoadNestedTemplates("home.htm")
+var home = loadNestedTemplates("home.htm")
 
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
-	Render(w, home, nil)
+	render(w, home, nil)
 }

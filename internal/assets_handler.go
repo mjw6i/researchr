@@ -4,8 +4,8 @@ import (
 	"net/http"
 )
 
-var assets = LoadNestedTemplates("assets.htm")
+var assets = loadNestedTemplates("assets.htm")
 
 func AssetsHandler(w http.ResponseWriter, r *http.Request) {
-	Render(w, assets, nil)
+	render(w, assets, nil)
 }
