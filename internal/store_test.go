@@ -1,4 +1,4 @@
-package main
+package internal
 
 import (
 	"database/sql"
@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	"github.com/DATA-DOG/go-sqlmock"
+	"github.com/mjw6i/researchr/pkg"
 )
 
 func TestResult(t *testing.T) {
@@ -16,7 +17,7 @@ func TestResult(t *testing.T) {
 	}
 	defer db.Close()
 
-	store := DatabaseStore{db: db}
+	store := NewDatabaseStore(db)
 	_, err = store.getResult()
 
 	if err != nil {
@@ -36,7 +37,7 @@ func TestGetResultError1(t *testing.T) {
 	store := DatabaseStore{db: db}
 	_, err = store.getResult()
 
-	assertError(t, "DB error", err)
+	pkg.AssertError(t, "DB error", err)
 
 	err = mock.ExpectationsWereMet()
 
@@ -59,7 +60,7 @@ func TestGetResultError2(t *testing.T) {
 	store := DatabaseStore{db: db}
 	_, err = store.getResult()
 
-	assertError(t, "DB error", err)
+	pkg.AssertError(t, "DB error", err)
 
 	err = mock.ExpectationsWereMet()
 
@@ -84,7 +85,7 @@ func TestGetResultError3(t *testing.T) {
 	store := DatabaseStore{db: db}
 	_, err = store.getResult()
 
-	assertError(t, "DB error", err)
+	pkg.AssertError(t, "DB error", err)
 
 	err = mock.ExpectationsWereMet()
 
@@ -105,7 +106,7 @@ func TestGetAbsoluteDataError(t *testing.T) {
 	store := DatabaseStore{db: db}
 	_, _, err = store.getAbsoluteData()
 
-	assertError(t, "DB error", err)
+	pkg.AssertError(t, "DB error", err)
 
 	err = mock.ExpectationsWereMet()
 
@@ -131,8 +132,8 @@ func TestGetAbsoluteDataEmpty(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	assertFloat(t, 0, remainedPercent)
-	assertFloat(t, 0, averageRemoved)
+	pkg.AssertFloat(t, 0, remainedPercent)
+	pkg.AssertFloat(t, 0, averageRemoved)
 
 	err = mock.ExpectationsWereMet()
 	if err != nil {
@@ -162,8 +163,8 @@ func TestGetAbsoluteDataFilled(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	assertFloat(t, 100*float64(responsive)/float64(count), remainedPercent)
-	assertFloat(t, float64(extremitiesRemoved)/float64(count), averageRemoved)
+	pkg.AssertFloat(t, 100*float64(responsive)/float64(count), remainedPercent)
+	pkg.AssertFloat(t, float64(extremitiesRemoved)/float64(count), averageRemoved)
 
 	err = mock.ExpectationsWereMet()
 
@@ -184,7 +185,7 @@ func TestGetHeadlessDataError(t *testing.T) {
 	store := DatabaseStore{db: db}
 	_, err = store.getHeadlessData()
 
-	assertError(t, "DB error", err)
+	pkg.AssertError(t, "DB error", err)
 
 	err = mock.ExpectationsWereMet()
 	if err != nil {
@@ -209,7 +210,7 @@ func TestGetHeadlessDataEmpty(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	assertFloat(t, 0, remainedPercent)
+	pkg.AssertFloat(t, 0, remainedPercent)
 
 	err = mock.ExpectationsWereMet()
 	if err != nil {
@@ -237,7 +238,7 @@ func TestGetHeadlessDataFilled(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	assertFloat(t, 100*float64(responsive)/float64(count), remainedPercent)
+	pkg.AssertFloat(t, 100*float64(responsive)/float64(count), remainedPercent)
 
 	err = mock.ExpectationsWereMet()
 
@@ -259,7 +260,7 @@ func TestGetExtremitiesMissingDataError(t *testing.T) {
 
 	_, err = store.getExtremitiesMissingData()
 
-	assertError(t, "DB error", err)
+	pkg.AssertError(t, "DB error", err)
 
 	err = mock.ExpectationsWereMet()
 	if err != nil {
@@ -287,7 +288,7 @@ func TestGetExtremitiesMissingDataEmpty(t *testing.T) {
 	}
 
 	for _, percent := range remainedPercentages {
-		assertFloat(t, 0, percent)
+		pkg.AssertFloat(t, 0, percent)
 	}
 
 	err = mock.ExpectationsWereMet()
@@ -319,7 +320,7 @@ func TestGetExtremitiesMissingDataFilled(t *testing.T) {
 	}
 
 	for _, percent := range remainedPercentages {
-		assertFloat(t, 100*float64(responsive)/float64(total), percent)
+		pkg.AssertFloat(t, 100*float64(responsive)/float64(total), percent)
 	}
 
 	err = mock.ExpectationsWereMet()
@@ -354,7 +355,7 @@ func TestStoreError(t *testing.T) {
 
 	err = store.storeExperiment(e)
 
-	assertError(t, "Store error", err)
+	pkg.AssertError(t, "Store error", err)
 
 	err = mock.ExpectationsWereMet()
 	if err != nil {
@@ -369,7 +370,7 @@ func TestStore(t *testing.T) {
 	}
 	defer db.Close()
 
-	store := DatabaseStore{db: db}
+	store := NewDatabaseStore(db)
 
 	e1 := Experiment{
 		Responsive: true,

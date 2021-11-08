@@ -1,29 +1,31 @@
-package main
+package internal
 
 import (
 	"net/http"
 	"strings"
 	"testing"
+
+	"github.com/mjw6i/researchr/pkg"
 )
 
 func TestReceiveRedirect(t *testing.T) {
 	ds := SuccessStore{}
-	env := &Env{store: ds}
+	env := &Env{Store: ds}
 
-	recorder := makeFormRequest(t, env.receiveHandler, "/receive", "responsive=yes")
+	recorder := pkg.MakeFormRequest(t, env.ReceiveHandler, "/receive", "responsive=yes")
 
-	assertStatus(t, recorder, 303)
-	assertHeader(t, recorder, "Location", "/results")
+	pkg.AssertStatus(t, recorder, 303)
+	pkg.AssertHeader(t, recorder, "Location", "/results")
 }
 
 func TestReceiveError(t *testing.T) {
 	ds := SuccessStore{}
-	env := &Env{store: ds}
+	env := &Env{Store: ds}
 
-	recorder := makeRequest(t, env.receiveHandler, "/receive")
+	recorder := pkg.MakeRequest(t, env.ReceiveHandler, "/receive")
 
-	assertStatus(t, recorder, 400)
-	assertBody(t, recorder, "")
+	pkg.AssertStatus(t, recorder, 400)
+	pkg.AssertBody(t, recorder, "")
 }
 
 func TestParseExperimentFormAllChecked(t *testing.T) {
@@ -94,10 +96,10 @@ func TestParseExperimentFormAllUnchecked(t *testing.T) {
 
 func TestReceiveStore(t *testing.T) {
 	ds := FailureStore{}
-	env := &Env{store: ds}
+	env := &Env{Store: ds}
 
-	recorder := makeFormRequest(t, env.receiveHandler, "/receive", "responsive=yes")
+	recorder := pkg.MakeFormRequest(t, env.ReceiveHandler, "/receive", "responsive=yes")
 
-	assertStatus(t, recorder, 500)
-	assertBody(t, recorder, "")
+	pkg.AssertStatus(t, recorder, 500)
+	pkg.AssertBody(t, recorder, "")
 }

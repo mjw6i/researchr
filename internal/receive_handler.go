@@ -1,4 +1,4 @@
-package main
+package internal
 
 import (
 	"errors"
@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-func (env *Env) receiveHandler(w http.ResponseWriter, r *http.Request) {
+func (env *Env) ReceiveHandler(w http.ResponseWriter, r *http.Request) {
 	experiment, err := parseExperimentFormData(r)
 
 	if err != nil {
@@ -14,7 +14,7 @@ func (env *Env) receiveHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = env.store.storeExperiment(experiment)
+	err = env.Store.storeExperiment(experiment)
 
 	if err != nil {
 		log.Println(err)
