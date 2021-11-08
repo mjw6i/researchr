@@ -17,7 +17,7 @@ func TestResult(t *testing.T) {
 	}
 	defer db.Close()
 
-	store := DatabaseStore{db: db}
+	store := NewDatabaseStore(db)
 	_, err = store.getResult()
 
 	if err != nil {
@@ -370,7 +370,7 @@ func TestStore(t *testing.T) {
 	}
 	defer db.Close()
 
-	store := DatabaseStore{db: db}
+	store := NewDatabaseStore(db)
 
 	e1 := Experiment{
 		Responsive: true,
