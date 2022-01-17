@@ -9,7 +9,9 @@ No JavaScript\
 No Rasterized graphics\
 More generalised SQL driver
 
+# Preview
 ![homepage](home.png)
+![submit](submit.gif)
 
 # How to run
 Server will listen on port 9000.
