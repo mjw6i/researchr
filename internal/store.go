@@ -34,6 +34,44 @@ type Experiment struct {
 	Wing2      bool
 }
 
+func (e Experiment) Extremities() uint8 {
+	var count uint8
+
+	if e.Leg1 {
+		count += 1
+	}
+
+	if e.Leg2 {
+		count += 1
+	}
+
+	if e.Leg3 {
+		count += 1
+	}
+
+	if e.Leg4 {
+		count += 1
+	}
+
+	if e.Leg5 {
+		count += 1
+	}
+
+	if e.Leg6 {
+		count += 1
+	}
+
+	if e.Wing1 {
+		count += 1
+	}
+
+	if e.Wing2 {
+		count += 1
+	}
+
+	return count
+}
+
 type DatabaseStore struct {
 	db *sql.DB
 }
@@ -83,10 +121,10 @@ func (store *DatabaseStore) getResult() (Result, error) {
 func (store *DatabaseStore) storeExperiment(e Experiment) error {
 	_, err := store.db.Exec(`
 	INSERT INTO experiments (
-		responsive, head, leg1, leg2, leg3, leg4, leg5, leg6, wing1, wing2
+		responsive, head, leg1, leg2, leg3, leg4, leg5, leg6, wing1, wing2, extremities
 	) VALUES (
-		$1, $2, $3, $4, $5, $6, $7, $8, $9, $10
-	)`, e.Responsive, e.Head, e.Leg1, e.Leg2, e.Leg3, e.Leg4, e.Leg5, e.Leg6, e.Wing1, e.Wing2)
+		$1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11
+	)`, e.Responsive, e.Head, e.Leg1, e.Leg2, e.Leg3, e.Leg4, e.Leg5, e.Leg6, e.Wing1, e.Wing2, e.Extremities())
 
 	if err != nil {
 		log.Println(err)
@@ -103,7 +141,7 @@ func (store *DatabaseStore) getAbsoluteData() (float64, float64, error) {
 	SELECT
 		COUNT(*),
 		COALESCE(SUM(responsive::int), 0) AS responsive,
-		COALESCE(SUM(leg1::int + leg2::int + leg3::int + leg4::int + leg5::int + leg6::int + wing1::int + wing2::int), 0) AS extremity
+		COALESCE(SUM(extremities), 0) AS extremity
 	FROM experiments
 	`)
 
@@ -158,12 +196,8 @@ func (store *DatabaseStore) getExtremitiesMissingData() ([9]float64, error) {
 		SELECT
 			COUNT(*),
 			COALESCE(SUM(responsive::int), 0)
-		FROM (
-			SELECT responsive
-			FROM experiments
-			GROUP BY id
-			HAVING SUM(leg1::int + leg2::int + leg3::int + leg4::int + leg5::int + leg6::int + wing1::int + wing2::int) = $1
-		) as rows
+		FROM experiments
+		WHERE extremities = $1
 		`, remaining)
 
 		var responsive, total int
