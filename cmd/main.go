@@ -1,12 +1,14 @@
 package main
 
 import (
-	"database/sql"
+	"context"
 	"flag"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
 
+	"github.com/jackc/pgx/v4/pgxpool"
 	"github.com/mjw6i/researchr/internal"
 )
 
@@ -16,14 +18,20 @@ func main() {
 	var addr string
 	flag.StringVar(&addr, "addr", ":9000", "listen address")
 	flag.Parse()
-	db, err := sql.Open("pgx", os.Getenv("DATABASE_URL"))
+
+	config, err := pgxpool.ParseConfig(os.Getenv("COCKROACH_URL"))
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal("error configuring the database: ", err)
 	}
-	db.SetMaxIdleConns(80)
-	db.SetMaxOpenConns(80)
-	defer db.Close()
-	ds := internal.NewDatabaseStore(db)
+
+	pool, err := pgxpool.ConnectConfig(context.Background(), config)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", err)
+		os.Exit(1)
+	}
+	defer pool.Close()
+
+	ds := internal.NewDatabaseStore(pool)
 	env := &internal.Env{Store: ds}
 
 	http.HandleFunc("/", internal.BaseHandler)

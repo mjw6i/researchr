@@ -1,4 +1,5 @@
 export DATABASE_URL = postgresql://postgres:secret@127.0.0.1:5432/rsc
+export COCKROACH_URL = postgres://root:@localhost:26257/defaultdb?pool_max_conns=64
 export PACKAGES = ./cmd github.com/mjw6i/researchr/internal
 
 run:
@@ -40,6 +41,20 @@ docker-db-up:
     docker cp migration.sql rsc:/docker-entrypoint-initdb.d/ && \
     docker start rsc
 
+coc-up:
+	cockroach start-single-node \
+		--background \
+		--store path=/mnt/scrapyard,size=20GB \
+		--cache=2GB \
+		--listen-addr=localhost:26257 \
+		--http-addr=localhost:8080 \
+		--insecure
+
+coc-down:
+	cockroach quit \
+		--host=localhost:26257 \
+		--insecure
+
 db-down:
 	podman pod stop pg-rsc && podman pod rm pg-rsc
 
@@ -50,7 +65,7 @@ db-conn:
 	podman exec -it pg-rsc-container psql "${DATABASE_URL}"
 
 stat:
-	watch -n 1 -t "ss -t | grep '127.0.0.1:postgres' | wc -l"
+	watch -n 1 -t "ss -t | grep '127.0.0.1:cockroach' | wc -l"
 
 ab:
 	ab -c 20 -n 20000 http://localhost:9000/results

@@ -1,11 +1,12 @@
 package internal
 
 import (
-	"database/sql"
+	"context"
 	"errors"
 	"fmt"
 	"log"
 
+	"github.com/jackc/pgx/v4/pgxpool"
 	_ "github.com/jackc/pgx/v4/stdlib"
 )
 
@@ -35,10 +36,10 @@ type Experiment struct {
 }
 
 type DatabaseStore struct {
-	db *sql.DB
+	db *pgxpool.Pool
 }
 
-func NewDatabaseStore(db *sql.DB) *DatabaseStore {
+func NewDatabaseStore(db *pgxpool.Pool) *DatabaseStore {
 	store := DatabaseStore{db: db}
 	return &store
 }
@@ -81,7 +82,7 @@ func (store *DatabaseStore) getResult() (Result, error) {
 }
 
 func (store *DatabaseStore) storeExperiment(e Experiment) error {
-	_, err := store.db.Exec(`
+	_, err := store.db.Exec(context.Background(), `
 	INSERT INTO experiments (
 		responsive, head, leg1, leg2, leg3, leg4, leg5, leg6, wing1, wing2
 	) VALUES (
@@ -99,7 +100,7 @@ func (store *DatabaseStore) storeExperiment(e Experiment) error {
 func (store *DatabaseStore) getAbsoluteData() (float64, float64, error) {
 	var count, responsive, extremity int
 
-	row := store.db.QueryRow(`
+	row := store.db.QueryRow(context.Background(), `
 	SELECT
 		COUNT(*),
 		COALESCE(SUM(responsive::int), 0) AS responsive,
@@ -125,7 +126,7 @@ func (store *DatabaseStore) getAbsoluteData() (float64, float64, error) {
 func (store *DatabaseStore) getHeadlessData() (float64, error) {
 	var count, responsive int
 
-	row := store.db.QueryRow(`
+	row := store.db.QueryRow(context.Background(), `
 	SELECT
 		COUNT(*),
 		COALESCE(SUM(responsive::int), 0) AS responsive
@@ -153,7 +154,7 @@ func (store *DatabaseStore) getExtremitiesMissingData() ([9]float64, error) {
 
 	for missing := 0; missing <= 8; missing++ {
 		remaining := 8 - missing
-		row := store.db.QueryRow(`
+		row := store.db.QueryRow(context.Background(), `
 			SELECT
 				COUNT(*),
 				COALESCE(SUM(responsive::int), 0)
