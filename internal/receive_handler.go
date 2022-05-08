@@ -37,22 +37,18 @@ func parseExperimentFormData(r *http.Request) (Experiment, error) {
 
 	return Experiment{
 		Responsive: responsive,
-		Head:       formBool(r, "head"),
-		Leg1:       formBool(r, "leg1"),
-		Leg2:       formBool(r, "leg2"),
-		Leg3:       formBool(r, "leg3"),
-		Leg4:       formBool(r, "leg4"),
-		Leg5:       formBool(r, "leg5"),
-		Leg6:       formBool(r, "leg6"),
-		Wing1:      formBool(r, "wing1"),
-		Wing2:      formBool(r, "wing2"),
+		Head:       isPresent(r, "head"),
+		Leg1:       isPresent(r, "leg1"),
+		Leg2:       isPresent(r, "leg2"),
+		Leg3:       isPresent(r, "leg3"),
+		Leg4:       isPresent(r, "leg4"),
+		Leg5:       isPresent(r, "leg5"),
+		Leg6:       isPresent(r, "leg6"),
+		Wing1:      isPresent(r, "wing1"),
+		Wing2:      isPresent(r, "wing2"),
 	}, nil
 }
 
-func formBool(r *http.Request, field string) bool {
-	if r.FormValue(field) == "on" {
-		return false
-	}
-
-	return true
+func isPresent(r *http.Request, field string) bool {
+	return r.FormValue(field) != "removed"
 }

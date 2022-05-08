@@ -2,20 +2,20 @@
 <section id="mosquito-section">
     <form method="POST" action="/receive">
         <div id="mosquito-container">
-            <input type="checkbox" name="leg1"  style="top: 21%; left: 83%;">
-            <input type="checkbox" name="leg2"  style="top: 83%; left: 83%;">
-            <input type="checkbox" name="leg3"  style="top: 95%; left: 77%;">
-            <input type="checkbox" name="leg4"  style="top: 95%; right: 76%;">
-            <input type="checkbox" name="leg5"  style="top: 83%; right: 82%;">
-            <input type="checkbox" name="leg6"  style="top: 21%; right: 83%;">
-            <input type="checkbox" name="wing1" style="top: 50%; left: 89%;">
-            <input type="checkbox" name="wing2" style="top: 50%; right: 89%;">
-            <input type="checkbox" name="head"  style="top: 0%; left: calc(50% - 2rem);">
+            <input type="checkbox" name="leg1"  value="removed" style="top: 21%; left: 83%;">
+            <input type="checkbox" name="leg2"  value="removed" style="top: 83%; left: 83%;">
+            <input type="checkbox" name="leg3"  value="removed" style="top: 95%; left: 77%;">
+            <input type="checkbox" name="leg4"  value="removed" style="top: 95%; right: 76%;">
+            <input type="checkbox" name="leg5"  value="removed" style="top: 83%; right: 82%;">
+            <input type="checkbox" name="leg6"  value="removed" style="top: 21%; right: 83%;">
+            <input type="checkbox" name="wing1" value="removed" style="top: 50%; left: 89%;">
+            <input type="checkbox" name="wing2" value="removed" style="top: 50%; right: 89%;">
+            <input type="checkbox" name="head"  value="removed" style="top: 0%; left: calc(50% - 2rem);">
             {{ template "mosquito.htm" }}
         </div>
         <div id="responsiveness-container">
             <input type="radio" id="responsiveness-yes" name="responsive" value="yes" required>
-            <input type="radio" id="responsiveness-no" name="responsive" value="no" required>
+            <input type="radio" id="responsiveness-no"  name="responsive" value="no"  required>
             <label for="responsiveness-yes">Responsive</label>
             <div class="flask-rotate">
                 <img class="flask" src="/static/flask.svg" />
