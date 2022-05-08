@@ -190,29 +190,31 @@ func (store *DatabaseStore) getHeadlessData() (float64, error) {
 func (store *DatabaseStore) getExtremitiesMissingData() ([9]float64, error) {
 	var remainedResponsive [9]float64
 
-	for missing := 0; missing <= 8; missing++ {
-		remaining := 8 - missing
-		row := store.db.QueryRow(`
-		SELECT
-			COUNT(*),
-			COALESCE(SUM(responsive::int), 0)
-		FROM experiments
-		WHERE extremities = $1
-		`, remaining)
+	rows, err := store.db.Query(`
+	SELECT
+		extremities,
+		COUNT(*),
+		COALESCE(SUM(responsive::int), 0) as responsive
+	FROM experiments
+	GROUP BY extremities
+	`)
+	if err != nil {
+		log.Println(err)
+		return [9]float64{}, errors.New("DB error")
+	}
+	defer rows.Close()
 
-		var responsive, total int
+	for rows.Next() {
+		var extremities, total, responsive int
 
-		err := row.Scan(&total, &responsive)
+		err := rows.Scan(&extremities, &total, &responsive)
 		if err != nil {
 			log.Println(err)
 			return [9]float64{}, errors.New("DB error")
 		}
 
-		if total == 0 {
-			remainedResponsive[missing] = 0
-		} else {
-			remainedResponsive[missing] = 100 * float64(responsive) / float64(total)
-		}
+		missing := 8 - extremities
+		remainedResponsive[missing] = 100 * float64(responsive) / float64(total)
 	}
 
 	return remainedResponsive, nil
