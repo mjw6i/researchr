@@ -15,6 +15,9 @@ cover:
 	go test ${PACKAGES} -coverprofile=coverage.out && \
 	go tool cover -html=coverage.out
 
+bench:
+	go test ${PACKAGES} -bench=. -run=^# -count=6
+
 st:
 	staticcheck ${PACKAGES}
 
