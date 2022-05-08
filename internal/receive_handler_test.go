@@ -29,7 +29,7 @@ func TestReceiveError(t *testing.T) {
 }
 
 func TestParseExperimentFormAllChecked(t *testing.T) {
-	body := "leg1=on&leg2=on&leg3=on&leg4=on&leg5=on&leg6=on&wing1=on&wing2=on&head=on&responsive=yes"
+	body := "leg1=removed&leg2=removed&leg3=removed&leg4=removed&leg5=removed&leg6=removed&wing1=removed&wing2=removed&head=removed&responsive=yes"
 
 	req, err := http.NewRequest("POST", "", strings.NewReader(body))
 	if err != nil {
