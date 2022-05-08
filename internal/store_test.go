@@ -428,3 +428,34 @@ func TestStore(t *testing.T) {
 		t.Fatal(err)
 	}
 }
+
+func BenchmarkStore(b *testing.B) {
+	db, err := sql.Open("pgx", os.Getenv("DATABASE_URL"))
+	if err != nil {
+		b.Fatal(err)
+	}
+	defer db.Close()
+
+	store := NewDatabaseStore(db)
+
+	e := Experiment{
+		Responsive: true,
+		Head:       false,
+		Leg1:       true,
+		Leg2:       false,
+		Leg3:       true,
+		Leg4:       false,
+		Leg5:       true,
+		Leg6:       false,
+		Wing1:      true,
+		Wing2:      false,
+	}
+
+	for i := 0; i < b.N; i++ {
+		err = store.storeExperiment(e)
+
+		if err != nil {
+			b.Fatal(err)
+		}
+	}
+}
