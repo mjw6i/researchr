@@ -104,7 +104,8 @@ func (store *DatabaseStore) getAbsoluteData() (float64, float64, error) {
 		COUNT(*),
 		COALESCE(SUM(responsive::int), 0) AS responsive,
 		COALESCE(SUM(leg1::int + leg2::int + leg3::int + leg4::int + leg5::int + leg6::int + wing1::int + wing2::int), 0) AS extremity
-	FROM experiments`)
+	FROM experiments
+	`)
 
 	err := row.Scan(&count, &responsive, &extremity)
 	if err != nil {
@@ -154,15 +155,15 @@ func (store *DatabaseStore) getExtremitiesMissingData() ([9]float64, error) {
 	for missing := 0; missing <= 8; missing++ {
 		remaining := 8 - missing
 		row := store.db.QueryRow(`
-			SELECT
-				COUNT(*),
-				COALESCE(SUM(responsive::int), 0)
-			FROM (
-				SELECT responsive
-				FROM experiments
-				GROUP BY id
-				HAVING SUM(leg1::int + leg2::int + leg3::int + leg4::int + leg5::int + leg6::int + wing1::int + wing2::int) = $1
-			) as rows
+		SELECT
+			COUNT(*),
+			COALESCE(SUM(responsive::int), 0)
+		FROM (
+			SELECT responsive
+			FROM experiments
+			GROUP BY id
+			HAVING SUM(leg1::int + leg2::int + leg3::int + leg4::int + leg5::int + leg6::int + wing1::int + wing2::int) = $1
+		) as rows
 		`, remaining)
 
 		var responsive, total int
