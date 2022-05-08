@@ -5,7 +5,7 @@ run:
 	cd cmd && go run .
 
 test:
-	go test ${PACKAGES}
+	go test ${PACKAGES} -count=1
 
 race:
 	go test ${PACKAGES} -race
