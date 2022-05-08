@@ -54,3 +54,6 @@ stat:
 
 ab:
 	ab -c 200 -n 20000 http://localhost:9000/results
+
+ab-post:
+	ab -c 200 -n 20000 -p ab-post-data -T 'application/x-www-form-urlencoded' http://127.0.0.1:9000/receive
