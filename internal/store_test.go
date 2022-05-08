@@ -25,6 +25,24 @@ func TestResult(t *testing.T) {
 	}
 }
 
+func BenchmarkResult(b *testing.B) {
+	db, err := sql.Open("pgx", os.Getenv("DATABASE_URL"))
+	if err != nil {
+		b.Fatal(err)
+	}
+	defer db.Close()
+
+	store := NewDatabaseStore(db)
+
+	for i := 0; i < b.N; i++ {
+		_, err = store.getResult()
+
+		if err != nil {
+			b.Fatal(err)
+		}
+	}
+}
+
 func TestGetResultError1(t *testing.T) {
 	db, mock, err := sqlmock.New()
 	if err != nil {
