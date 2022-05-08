@@ -286,6 +286,29 @@ func TestGetExtremitiesMissingDataQueryError(t *testing.T) {
 	}
 }
 
+func TestGetExtremitiesMissingDataScanError(t *testing.T) {
+	db, mock, err := sqlmock.New()
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer db.Close()
+
+	rows := sqlmock.NewRows([]string{"extremities", "count", "responsive"}).
+		AddRow(0, 0, 0).AddRow(nil, nil, nil)
+	mock.ExpectQuery("SELECT").WillReturnRows(rows)
+
+	store := DatabaseStore{db: db}
+
+	_, err = store.getExtremitiesMissingData()
+
+	pkg.AssertError(t, "DB error", err)
+
+	err = mock.ExpectationsWereMet()
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
 func TestGetExtremitiesMissingDataEmpty(t *testing.T) {
 	db, mock, err := sqlmock.New()
 	if err != nil {
