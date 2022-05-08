@@ -265,7 +265,7 @@ func TestGetHeadlessDataFilled(t *testing.T) {
 	}
 }
 
-func TestGetExtremitiesMissingDataError(t *testing.T) {
+func TestGetExtremitiesMissingDataQueryError(t *testing.T) {
 	db, mock, err := sqlmock.New()
 	if err != nil {
 		t.Fatal(err)
