@@ -34,6 +34,8 @@ func BenchmarkResult(b *testing.B) {
 	if err != nil {
 		b.Fatal(err)
 	}
+	db.SetMaxIdleConns(3)
+	db.SetMaxOpenConns(3)
 	defer db.Close()
 
 	store := NewDatabaseStore(db)

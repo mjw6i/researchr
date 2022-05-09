@@ -30,39 +30,75 @@ func NewDatabaseStore(db *sql.DB) *DatabaseStore {
 	return &store
 }
 
+type absoluteData struct {
+	remainedResponsivePercent float64
+	averageExtremitiesRemoved float64
+	err                       error
+}
+
+type headlessData struct {
+	remainedResponsivePercent float64
+	err                       error
+}
+
+type missingData struct {
+	remainedResponsivePercent [9]float64
+	err                       error
+}
+
 func (store *DatabaseStore) getResult() (Result, error) {
-	remainedResponsivePercent, averageExtremitiesRemoved, err := store.getAbsoluteData()
+	abs := make(chan absoluteData, 1)
+	head := make(chan headlessData, 1)
+	miss := make(chan missingData, 1)
 
-	if err != nil {
+	go func() {
+		remainedResponsivePercent, averageExtremitiesRemoved, err := store.getAbsoluteData()
+		data := absoluteData{remainedResponsivePercent, averageExtremitiesRemoved, err}
+		abs <- data
+	}()
+
+	go func() {
+		remainedResponsivePercent, err := store.getHeadlessData()
+		data := headlessData{remainedResponsivePercent, err}
+		head <- data
+	}()
+
+	go func() {
+		remainedResponsivePercent, err := store.getExtremitiesMissingData()
+		data := missingData{remainedResponsivePercent, err}
+		miss <- data
+	}()
+
+	absolute := <-abs
+	headless := <-head
+	missing := <-miss
+
+	if absolute.err != nil {
 		return Result{}, errors.New("DB error")
 	}
 
-	remainedResponsiveHeadlessPercent, err := store.getHeadlessData()
-
-	if err != nil {
+	if headless.err != nil {
 		return Result{}, errors.New("DB error")
 	}
 
-	remainedResponsiveMissingPercent, err := store.getExtremitiesMissingData()
-
-	if err != nil {
+	if missing.err != nil {
 		return Result{}, errors.New("DB error")
 	}
 
 	return Result{
-		RemainedResponsivePercent:         fmt.Sprintf("%.2f", remainedResponsivePercent),
-		RemainedResponsiveHeadlessPercent: fmt.Sprintf("%.2f", remainedResponsiveHeadlessPercent),
-		AverageExtremitiesRemoved:         fmt.Sprintf("%.2f", averageExtremitiesRemoved),
+		RemainedResponsivePercent:         fmt.Sprintf("%.2f", absolute.remainedResponsivePercent),
+		RemainedResponsiveHeadlessPercent: fmt.Sprintf("%.2f", headless.remainedResponsivePercent),
+		AverageExtremitiesRemoved:         fmt.Sprintf("%.2f", absolute.averageExtremitiesRemoved),
 		RemainedResponsiveMissingPercent: [9]string{
-			fmt.Sprintf("%.2f", remainedResponsiveMissingPercent[0]),
-			fmt.Sprintf("%.2f", remainedResponsiveMissingPercent[1]),
-			fmt.Sprintf("%.2f", remainedResponsiveMissingPercent[2]),
-			fmt.Sprintf("%.2f", remainedResponsiveMissingPercent[3]),
-			fmt.Sprintf("%.2f", remainedResponsiveMissingPercent[4]),
-			fmt.Sprintf("%.2f", remainedResponsiveMissingPercent[5]),
-			fmt.Sprintf("%.2f", remainedResponsiveMissingPercent[6]),
-			fmt.Sprintf("%.2f", remainedResponsiveMissingPercent[7]),
-			fmt.Sprintf("%.2f", remainedResponsiveMissingPercent[8]),
+			fmt.Sprintf("%.2f", missing.remainedResponsivePercent[0]),
+			fmt.Sprintf("%.2f", missing.remainedResponsivePercent[1]),
+			fmt.Sprintf("%.2f", missing.remainedResponsivePercent[2]),
+			fmt.Sprintf("%.2f", missing.remainedResponsivePercent[3]),
+			fmt.Sprintf("%.2f", missing.remainedResponsivePercent[4]),
+			fmt.Sprintf("%.2f", missing.remainedResponsivePercent[5]),
+			fmt.Sprintf("%.2f", missing.remainedResponsivePercent[6]),
+			fmt.Sprintf("%.2f", missing.remainedResponsivePercent[7]),
+			fmt.Sprintf("%.2f", missing.remainedResponsivePercent[8]),
 		},
 	}, nil
 }
