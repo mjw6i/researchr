@@ -53,20 +53,17 @@ func (store *DatabaseStore) getResult() (Result, error) {
 
 	go func() {
 		remainedResponsivePercent, averageExtremitiesRemoved, err := store.getAbsoluteData()
-		data := absoluteData{remainedResponsivePercent, averageExtremitiesRemoved, err}
-		abs <- data
+		abs <- absoluteData{remainedResponsivePercent, averageExtremitiesRemoved, err}
 	}()
 
 	go func() {
 		remainedResponsivePercent, err := store.getHeadlessData()
-		data := headlessData{remainedResponsivePercent, err}
-		head <- data
+		head <- headlessData{remainedResponsivePercent, err}
 	}()
 
 	go func() {
 		remainedResponsivePercent, err := store.getExtremitiesMissingData()
-		data := missingData{remainedResponsivePercent, err}
-		miss <- data
+		miss <- missingData{remainedResponsivePercent, err}
 	}()
 
 	absolute := <-abs
