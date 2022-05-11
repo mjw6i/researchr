@@ -21,19 +21,6 @@ type Result struct {
 	RemainedResponsiveMissingPercent  [9]string
 }
 
-type Experiment struct {
-	Responsive bool
-	Head       bool
-	Leg1       bool
-	Leg2       bool
-	Leg3       bool
-	Leg4       bool
-	Leg5       bool
-	Leg6       bool
-	Wing1      bool
-	Wing2      bool
-}
-
 type DatabaseStore struct {
 	db *sql.DB
 }
@@ -83,10 +70,10 @@ func (store *DatabaseStore) getResult() (Result, error) {
 func (store *DatabaseStore) storeExperiment(e Experiment) error {
 	_, err := store.db.Exec(`
 	INSERT INTO experiments (
-		responsive, head, leg1, leg2, leg3, leg4, leg5, leg6, wing1, wing2
+		responsive, head, leg1, leg2, leg3, leg4, leg5, leg6, wing1, wing2, extremities
 	) VALUES (
-		$1, $2, $3, $4, $5, $6, $7, $8, $9, $10
-	)`, e.Responsive, e.Head, e.Leg1, e.Leg2, e.Leg3, e.Leg4, e.Leg5, e.Leg6, e.Wing1, e.Wing2)
+		$1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11
+	)`, e.Responsive, e.Head, e.Leg1, e.Leg2, e.Leg3, e.Leg4, e.Leg5, e.Leg6, e.Wing1, e.Wing2, e.Extremities())
 
 	if err != nil {
 		log.Println(err)
@@ -103,7 +90,7 @@ func (store *DatabaseStore) getAbsoluteData() (float64, float64, error) {
 	SELECT
 		COUNT(*),
 		COALESCE(SUM(responsive::int), 0) AS responsive,
-		COALESCE(SUM(leg1::int + leg2::int + leg3::int + leg4::int + leg5::int + leg6::int + wing1::int + wing2::int), 0) AS extremity
+		COALESCE(SUM(extremities), 0) AS extremity
 	FROM experiments
 	`)
 
@@ -152,33 +139,37 @@ func (store *DatabaseStore) getHeadlessData() (float64, error) {
 func (store *DatabaseStore) getExtremitiesMissingData() ([9]float64, error) {
 	var remainedResponsive [9]float64
 
-	for missing := 0; missing <= 8; missing++ {
-		remaining := 8 - missing
-		row := store.db.QueryRow(`
-		SELECT
-			COUNT(*),
-			COALESCE(SUM(responsive::int), 0)
-		FROM (
-			SELECT responsive
-			FROM experiments
-			GROUP BY id
-			HAVING SUM(leg1::int + leg2::int + leg3::int + leg4::int + leg5::int + leg6::int + wing1::int + wing2::int) = $1
-		) as rows
-		`, remaining)
+	rows, err := store.db.Query(`
+	SELECT
+		extremities,
+		COUNT(*),
+		COALESCE(SUM(responsive::int), 0) as responsive
+	FROM experiments
+	GROUP BY extremities
+	`)
+	if err != nil {
+		log.Println(err)
+		return [9]float64{}, errors.New("DB error")
+	}
+	defer rows.Close()
 
-		var responsive, total int
+	for rows.Next() {
+		var extremities, total, responsive int
 
-		err := row.Scan(&total, &responsive)
+		err := rows.Scan(&extremities, &total, &responsive)
 		if err != nil {
 			log.Println(err)
 			return [9]float64{}, errors.New("DB error")
 		}
 
-		if total == 0 {
-			remainedResponsive[missing] = 0
-		} else {
-			remainedResponsive[missing] = 100 * float64(responsive) / float64(total)
-		}
+		missing := 8 - extremities
+		remainedResponsive[missing] = 100 * float64(responsive) / float64(total)
+	}
+
+	err = rows.Err()
+	if err != nil {
+		log.Println(err)
+		return [9]float64{}, errors.New("DB error")
 	}
 
 	return remainedResponsive, nil
