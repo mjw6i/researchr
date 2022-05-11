@@ -56,6 +56,7 @@ func TestGetResultErrorAbsolute(t *testing.T) {
 	}
 	defer db.Close()
 
+	mock.MatchExpectationsInOrder(false)
 	mock.ExpectQuery(absoluteQuery).WillReturnError(fmt.Errorf("SQL Error"))
 
 	store := DatabaseStore{db: db}
@@ -77,6 +78,7 @@ func TestGetResultErrorHeadless(t *testing.T) {
 	}
 	defer db.Close()
 
+	mock.MatchExpectationsInOrder(false)
 	rows := sqlmock.NewRows([]string{"count", "responsive", "extremity"}).AddRow(0, 0, 0)
 	mock.ExpectQuery(absoluteQuery).WillReturnRows(rows)
 	mock.ExpectQuery(headlessQuery).WillReturnError(fmt.Errorf("SQL Error"))
@@ -100,6 +102,7 @@ func TestGetResultErrorMissing(t *testing.T) {
 	}
 	defer db.Close()
 
+	mock.MatchExpectationsInOrder(false)
 	rows := sqlmock.NewRows([]string{"count", "responsive", "extremity"}).AddRow(0, 0, 0)
 	mock.ExpectQuery(absoluteQuery).WillReturnRows(rows)
 	rows = sqlmock.NewRows([]string{"count", "responsive"}).AddRow(0, 0)
