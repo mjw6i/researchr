@@ -12,6 +12,7 @@ import (
 
 const absoluteQuery = "SELECT .* FROM experiments$"
 const headlessQuery = "SELECT .* WHERE head = FALSE$"
+const missingQuery = "SELECT .* GROUP BY extremities$"
 
 func TestResult(t *testing.T) {
 	db, err := sql.Open("pgx", os.Getenv("DATABASE_URL"))
@@ -101,7 +102,7 @@ func TestGetResultErrorMissing(t *testing.T) {
 	mock.ExpectQuery(absoluteQuery).WillReturnRows(rows)
 	rows = sqlmock.NewRows([]string{"count", "responsive"}).AddRow(0, 0)
 	mock.ExpectQuery(headlessQuery).WillReturnRows(rows)
-	mock.ExpectQuery("SELECT").WillReturnError(fmt.Errorf("SQL Error"))
+	mock.ExpectQuery(missingQuery).WillReturnError(fmt.Errorf("SQL Error"))
 
 	store := DatabaseStore{db: db}
 	_, err = store.getResult()
@@ -275,7 +276,7 @@ func TestGetExtremitiesMissingDataQueryError(t *testing.T) {
 	}
 	defer db.Close()
 
-	mock.ExpectQuery("SELECT").WillReturnError(fmt.Errorf("SQL Error"))
+	mock.ExpectQuery(missingQuery).WillReturnError(fmt.Errorf("SQL Error"))
 
 	store := DatabaseStore{db: db}
 
@@ -298,7 +299,7 @@ func TestGetExtremitiesMissingDataScanError(t *testing.T) {
 
 	rows := sqlmock.NewRows([]string{"extremities", "count", "responsive"}).
 		AddRow(0, 0, 0).AddRow(nil, nil, nil)
-	mock.ExpectQuery("SELECT").WillReturnRows(rows)
+	mock.ExpectQuery(missingQuery).WillReturnRows(rows)
 
 	store := DatabaseStore{db: db}
 
@@ -321,7 +322,7 @@ func TestGetExtremitiesMissingDataErrError(t *testing.T) {
 
 	rows := sqlmock.NewRows([]string{"extremities", "count", "responsive"}).
 		AddRow(0, 0, 0).RowError(0, fmt.Errorf("SQL Error"))
-	mock.ExpectQuery("SELECT").WillReturnRows(rows)
+	mock.ExpectQuery(missingQuery).WillReturnRows(rows)
 
 	store := DatabaseStore{db: db}
 
@@ -343,7 +344,7 @@ func TestGetExtremitiesMissingDataEmpty(t *testing.T) {
 	defer db.Close()
 
 	rows := sqlmock.NewRows([]string{"extremities", "count", "responsive"})
-	mock.ExpectQuery("SELECT").WillReturnRows(rows)
+	mock.ExpectQuery(missingQuery).WillReturnRows(rows)
 
 	store := DatabaseStore{db: db}
 	remainedPercentages, err := store.getExtremitiesMissingData()
@@ -377,7 +378,7 @@ func TestGetExtremitiesMissingDataFilled(t *testing.T) {
 	for i := 0; i <= 8; i++ {
 		rows.AddRow(i, total, responsive)
 	}
-	mock.ExpectQuery("SELECT").WillReturnRows(rows)
+	mock.ExpectQuery(missingQuery).WillReturnRows(rows)
 
 	store := DatabaseStore{db: db}
 	remainedPercentages, err := store.getExtremitiesMissingData()
