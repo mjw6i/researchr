@@ -68,6 +68,12 @@ func AssertFloat(t *testing.T, expected float64, actual float64) {
 	}
 }
 
+func AssertSmall(t *testing.T, expected uint8, actual uint8) {
+	if expected != actual {
+		t.Fatalf("Expected value: '%v' got '%v'", expected, actual)
+	}
+}
+
 func AssertError(t *testing.T, expected string, err error) {
 	if err == nil {
 		t.Fatal("Expected an error")
