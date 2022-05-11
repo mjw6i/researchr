@@ -10,6 +10,8 @@ import (
 	"github.com/mjw6i/researchr/pkg"
 )
 
+const absoluteQuery = "SELECT .* FROM experiments$"
+
 func TestResult(t *testing.T) {
 	db, err := sql.Open("pgx", os.Getenv("DATABASE_URL"))
 	if err != nil {
@@ -50,7 +52,7 @@ func TestGetResultErrorAbsolute(t *testing.T) {
 	}
 	defer db.Close()
 
-	mock.ExpectQuery("SELECT").WillReturnError(fmt.Errorf("SQL Error"))
+	mock.ExpectQuery(absoluteQuery).WillReturnError(fmt.Errorf("SQL Error"))
 
 	store := DatabaseStore{db: db}
 	_, err = store.getResult()
@@ -72,7 +74,7 @@ func TestGetResultErrorHeadless(t *testing.T) {
 	defer db.Close()
 
 	rows := sqlmock.NewRows([]string{"count", "responsive", "extremity"}).AddRow(0, 0, 0)
-	mock.ExpectQuery("SELECT").WillReturnRows(rows)
+	mock.ExpectQuery(absoluteQuery).WillReturnRows(rows)
 	mock.ExpectQuery("SELECT").WillReturnError(fmt.Errorf("SQL Error"))
 
 	store := DatabaseStore{db: db}
@@ -95,7 +97,7 @@ func TestGetResultErrorMissing(t *testing.T) {
 	defer db.Close()
 
 	rows := sqlmock.NewRows([]string{"count", "responsive", "extremity"}).AddRow(0, 0, 0)
-	mock.ExpectQuery("SELECT").WillReturnRows(rows)
+	mock.ExpectQuery(absoluteQuery).WillReturnRows(rows)
 	rows = sqlmock.NewRows([]string{"count", "responsive"}).AddRow(0, 0)
 	mock.ExpectQuery("SELECT").WillReturnRows(rows)
 	mock.ExpectQuery("SELECT").WillReturnError(fmt.Errorf("SQL Error"))
@@ -119,7 +121,7 @@ func TestGetAbsoluteDataError(t *testing.T) {
 	}
 	defer db.Close()
 
-	mock.ExpectQuery("SELECT").WillReturnError(fmt.Errorf("SQL Error"))
+	mock.ExpectQuery(absoluteQuery).WillReturnError(fmt.Errorf("SQL Error"))
 
 	store := DatabaseStore{db: db}
 	_, _, err = store.getAbsoluteData()
@@ -141,7 +143,7 @@ func TestGetAbsoluteDataEmpty(t *testing.T) {
 	defer db.Close()
 
 	rows := sqlmock.NewRows([]string{"count", "responsive", "extremity"}).AddRow(0, 0, 0)
-	mock.ExpectQuery("SELECT").WillReturnRows(rows)
+	mock.ExpectQuery(absoluteQuery).WillReturnRows(rows)
 
 	store := DatabaseStore{db: db}
 	remainedPercent, averageRemoved, err := store.getAbsoluteData()
@@ -172,7 +174,7 @@ func TestGetAbsoluteDataFilled(t *testing.T) {
 	extremitiesRemoved := 13
 
 	rows := sqlmock.NewRows([]string{"count", "responsive", "extremity"}).AddRow(count, responsive, extremitiesRemaining)
-	mock.ExpectQuery("SELECT").WillReturnRows(rows)
+	mock.ExpectQuery(absoluteQuery).WillReturnRows(rows)
 
 	store := DatabaseStore{db: db}
 	remainedPercent, averageRemoved, err := store.getAbsoluteData()
