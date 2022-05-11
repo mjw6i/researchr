@@ -8,7 +8,7 @@ test:
 	go test ${PACKAGES} -count=1
 
 race:
-	go test ${PACKAGES} -race
+	go test ${PACKAGES} -count=1 -race
 
 cover:
 	go vet ${PACKAGES} && \

@@ -34,6 +34,8 @@ func BenchmarkResult(b *testing.B) {
 	if err != nil {
 		b.Fatal(err)
 	}
+	db.SetMaxIdleConns(3)
+	db.SetMaxOpenConns(3)
 	defer db.Close()
 
 	store := NewDatabaseStore(db)
@@ -54,6 +56,7 @@ func TestGetResultErrorAbsolute(t *testing.T) {
 	}
 	defer db.Close()
 
+	mock.MatchExpectationsInOrder(false)
 	mock.ExpectQuery(absoluteQuery).WillReturnError(fmt.Errorf("SQL Error"))
 
 	store := DatabaseStore{db: db}
@@ -75,6 +78,7 @@ func TestGetResultErrorHeadless(t *testing.T) {
 	}
 	defer db.Close()
 
+	mock.MatchExpectationsInOrder(false)
 	rows := sqlmock.NewRows([]string{"count", "responsive", "extremity"}).AddRow(0, 0, 0)
 	mock.ExpectQuery(absoluteQuery).WillReturnRows(rows)
 	mock.ExpectQuery(headlessQuery).WillReturnError(fmt.Errorf("SQL Error"))
@@ -98,6 +102,7 @@ func TestGetResultErrorMissing(t *testing.T) {
 	}
 	defer db.Close()
 
+	mock.MatchExpectationsInOrder(false)
 	rows := sqlmock.NewRows([]string{"count", "responsive", "extremity"}).AddRow(0, 0, 0)
 	mock.ExpectQuery(absoluteQuery).WillReturnRows(rows)
 	rows = sqlmock.NewRows([]string{"count", "responsive"}).AddRow(0, 0)
