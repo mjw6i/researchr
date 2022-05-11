@@ -43,7 +43,7 @@ func BenchmarkResult(b *testing.B) {
 	}
 }
 
-func TestGetResultError1(t *testing.T) {
+func TestGetResultErrorAbsolute(t *testing.T) {
 	db, mock, err := sqlmock.New()
 	if err != nil {
 		t.Fatal(err)
@@ -64,7 +64,7 @@ func TestGetResultError1(t *testing.T) {
 	}
 }
 
-func TestGetResultError2(t *testing.T) {
+func TestGetResultErrorHeadless(t *testing.T) {
 	db, mock, err := sqlmock.New()
 	if err != nil {
 		t.Fatal(err)
@@ -87,7 +87,7 @@ func TestGetResultError2(t *testing.T) {
 	}
 }
 
-func TestGetResultError3(t *testing.T) {
+func TestGetResultErrorMissing(t *testing.T) {
 	db, mock, err := sqlmock.New()
 	if err != nil {
 		t.Fatal(err)
