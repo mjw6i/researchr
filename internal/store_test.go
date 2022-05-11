@@ -11,6 +11,7 @@ import (
 )
 
 const absoluteQuery = "SELECT .* FROM experiments$"
+const headlessQuery = "SELECT .* WHERE head = FALSE$"
 
 func TestResult(t *testing.T) {
 	db, err := sql.Open("pgx", os.Getenv("DATABASE_URL"))
@@ -75,7 +76,7 @@ func TestGetResultErrorHeadless(t *testing.T) {
 
 	rows := sqlmock.NewRows([]string{"count", "responsive", "extremity"}).AddRow(0, 0, 0)
 	mock.ExpectQuery(absoluteQuery).WillReturnRows(rows)
-	mock.ExpectQuery("SELECT").WillReturnError(fmt.Errorf("SQL Error"))
+	mock.ExpectQuery(headlessQuery).WillReturnError(fmt.Errorf("SQL Error"))
 
 	store := DatabaseStore{db: db}
 	_, err = store.getResult()
@@ -99,7 +100,7 @@ func TestGetResultErrorMissing(t *testing.T) {
 	rows := sqlmock.NewRows([]string{"count", "responsive", "extremity"}).AddRow(0, 0, 0)
 	mock.ExpectQuery(absoluteQuery).WillReturnRows(rows)
 	rows = sqlmock.NewRows([]string{"count", "responsive"}).AddRow(0, 0)
-	mock.ExpectQuery("SELECT").WillReturnRows(rows)
+	mock.ExpectQuery(headlessQuery).WillReturnRows(rows)
 	mock.ExpectQuery("SELECT").WillReturnError(fmt.Errorf("SQL Error"))
 
 	store := DatabaseStore{db: db}
@@ -200,7 +201,7 @@ func TestGetHeadlessDataError(t *testing.T) {
 	}
 	defer db.Close()
 
-	mock.ExpectQuery("SELECT").WillReturnError(fmt.Errorf("SQL Error"))
+	mock.ExpectQuery(headlessQuery).WillReturnError(fmt.Errorf("SQL Error"))
 
 	store := DatabaseStore{db: db}
 	_, err = store.getHeadlessData()
@@ -221,7 +222,7 @@ func TestGetHeadlessDataEmpty(t *testing.T) {
 	defer db.Close()
 
 	rows := sqlmock.NewRows([]string{"count", "responsive"}).AddRow(0, 0)
-	mock.ExpectQuery("SELECT").WillReturnRows(rows)
+	mock.ExpectQuery(headlessQuery).WillReturnRows(rows)
 
 	store := DatabaseStore{db: db}
 	remainedPercent, err := store.getHeadlessData()
@@ -249,7 +250,7 @@ func TestGetHeadlessDataFilled(t *testing.T) {
 	responsive := 2
 
 	rows := sqlmock.NewRows([]string{"count", "responsive"}).AddRow(count, responsive)
-	mock.ExpectQuery("SELECT").WillReturnRows(rows)
+	mock.ExpectQuery(headlessQuery).WillReturnRows(rows)
 
 	store := DatabaseStore{db: db}
 	remainedPercent, err := store.getHeadlessData()
