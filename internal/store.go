@@ -166,5 +166,11 @@ func (store *DatabaseStore) getExtremitiesMissingData() ([9]float64, error) {
 		remainedResponsive[missing] = 100 * float64(responsive) / float64(total)
 	}
 
+	err = rows.Err()
+	if err != nil {
+		log.Println(err)
+		return [9]float64{}, errors.New("DB error")
+	}
+
 	return remainedResponsive, nil
 }
